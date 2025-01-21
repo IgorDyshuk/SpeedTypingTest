@@ -1,0 +1,117 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Speed typing test</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <!--  <meta name="description" content="">-->
+
+  <!--  <meta property="og:title" content="">-->
+  <!--  <meta property="og:type" content="">-->
+  <!--  <meta property="og:url" content="">-->
+  <!--  <meta property="og:image" content="">-->
+  <!--  <meta property="og:image:alt" content="">-->
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.png">
+
+
+  <!--  <link rel="manifest" href="site.webmanifest">-->
+  <!--  <meta name="theme-color" content="#fafafa">-->
+</head>
+
+<body>
+
+
+<!-- Add your site or application content here -->
+<div class="nav-bar">
+  <h2>Speed Typing Test</h2>
+  <div class="logo"></div>
+  <div class="menu"></div>
+  <div class="profile">
+    <button id="login-form">
+      <i class="far fa-user" id="login-icon"></i>
+    </button>
+    <p class="username"></p>
+  </div>
+</div>
+
+<div class="login-container">
+  <div class="container" id="container">
+    <div class="from-container sign-up">
+      <form id="sign-up-form">
+        <h1>Create Account</h1>
+        <div class="input-container">
+          <input type="text" name="username" class="username" placeholder="Username" required>
+        </div>
+        <div class="input-container">
+          <input type="email" name="email" class="email" placeholder="Email" required>
+        </div>
+        <div class="input-container">
+          <input type="password" name="password" class="password" placeholder="Password" required>
+          <i class="fa fa-eye toggle-password"></i>
+        </div>
+        <button type="submit">
+          <i class="fas fa-user-plus"></i>
+          Sign Up
+        </button>
+      </form>
+    </div>
+    <div class="from-container sign-in">
+      <form id="sign-in-form">
+        <h1>Sign In</h1>
+        <div class="input-container">
+          <input type="email" name="username" class="email" placeholder="Email" required>
+        </div>
+        <div class="input-container">
+          <input type="password" name="password" class="password" placeholder="Password" required>
+          <i class="fa fa-eye toggle-password"></i>
+        </div>
+        <button type="submit">
+          <i class="fas fa-sign-in-alt"></i>
+          Sign In
+        </button>
+      </form>
+    </div>
+    <div class="toggle-container">
+      <div class="toggle">
+        <div class="toggle-panel toggle-left">
+          <i class="fa fa-times"></i>
+          <h1>Welcome Back!</h1>
+          <p>If you have already registered on this site, please log in</p>
+          <button class="hidden" id="login">
+            <i class="fas fa-sign-in-alt"></i>
+            Sign In
+          </button>
+        </div>
+        <div class="toggle-panel toggle-right">
+          <i class="fa fa-times"></i>
+          <h1>Hello Friend!</h1>
+          <p>If you are visiting the site for the first time, register to use all site features</p>
+          <button class="hidden" id="register">
+            <i class="fas fa-user-plus"></i>
+            Sign Up
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="notification" class="notification hidden">
+</div>
+
+<main>
+</main>
+
+<script src="js/app.js"></script>
+
+</body>
+
+</html>
+

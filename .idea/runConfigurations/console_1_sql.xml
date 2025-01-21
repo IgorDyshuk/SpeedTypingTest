@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="console_1.sql" type="DatabaseScript" editBeforeRun="true" nameIsGenerated="true">
+    <script-text>select * from users</script-text>
+    <method v="2" />
+  </configuration>
+</component>
