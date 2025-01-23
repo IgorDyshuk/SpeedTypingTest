@@ -55,6 +55,7 @@ document.getElementById("sign-in-form").addEventListener("submit", async functio
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         email: email,
         password: password,
@@ -98,6 +99,7 @@ document.getElementById("sign-up-form").addEventListener("submit", async functio
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         username: username,
         email: email,
@@ -127,6 +129,30 @@ document.getElementById("sign-up-form").addEventListener("submit", async functio
   }
 });
 
+window.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/profile", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Not logged in");
+    }
+
+    const data = await response.json();
+
+    const loginIcon = document.getElementById("login-icon")
+    loginIcon.classList.remove("far")
+    loginIcon.classList.add("fas")
+
+    const username = document.querySelector(".profile .username")
+    username.textContent = data.username;
+
+  } catch (error) {
+    showNotification(error.message, "error");
+  }
+});
 
 document.getElementById("login-form").addEventListener("click", () => {
   const container = document.querySelector(".login-container")

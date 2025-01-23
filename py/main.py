@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, Response, Depends, Request
@@ -23,12 +23,11 @@ security = AuthX(config=config)
 
 app.add_middleware(
   CORSMiddleware,
-  allow_origins=["*"],  # Указать домен фронтенда
+  allow_origins=["http://127.0.0.1:5501"],
   allow_credentials=True,
   allow_methods=["*"],
   allow_headers=["*"],
 )
-
 
 
 def get_db_connection():
@@ -98,9 +97,16 @@ def login_user(user: LoginUserSchema, response: Response):
       if not verify_password(user.password, db_user_password):
         raise HTTPException(status_code=401, detail="Incorrect email or password")
 
-      token = security.create_access_token(uid=str(db_user[0]))
-      # Возвращаемся к простому set_cookie
-      response.set_cookie(config.JWT_ACCESS_COOKIE_NAME, token, httponly=True)
+      token = security.create_access_token(uid=str(db_user[0]), expires_delta=timedelta(minutes=30))
+      response.set_cookie(
+        config.JWT_ACCESS_COOKIE_NAME,
+        token,
+        httponly=True,
+        samesite="none",
+        secure=True,
+        max_age=1800,
+        expires=1800,
+      )
 
       username = db_user[1]
       return {
@@ -114,8 +120,19 @@ def login_user(user: LoginUserSchema, response: Response):
     connection.close()
 
 
-
-
-
-
-
+@app.get("/profile")
+def protected(token=Depends(security.access_token_required)):
+  user_id = token.sub
+  connection = get_db_connection()
+  try:
+    with connection.cursor() as cursor:
+      cursor.execute("SELECT name FROM public.users WHERE id = %s", (user_id,))
+      db_user = cursor.fetchone()
+      if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+      name = db_user
+      return {
+        "username": name,
+      }
+  finally:
+    connection.close()
