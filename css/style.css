@@ -361,9 +361,9 @@ button:hover {
 .nav-bar .profile .profile-actions li {
   display: flex;
   align-items: center;
-  padding: 10px 20px; /* Отступы внутри элементов */
-  color: var(--text-color); /* Цвет текста */
-  cursor: pointer; /* Курсор-указатель */
+  padding: 10px 20px;
+  color: var(--text-color);
+  cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -372,8 +372,8 @@ button:hover {
 }
 
 .nav-bar .profile .profile-actions li:hover{
-  background-color: var(--text-color); /* Фон для всего элемента */
-  color: var(--bgColor); /* Цвет текста и всех вложенных элементов */
+  background-color: var(--text-color);
+  color: var(--bgColor);
 }
 
 .nav-bar .profile:hover .profile-actions {

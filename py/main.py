@@ -15,8 +15,8 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 config = AuthXConfig(
   JWT_SECRET_KEY="SECRET_KEY",
-  # JWT_ACCESS_TOKEN_EXPIRES=timedelta(minutes=30),  # Время жизни access-токена
-  # JWT_REFRESH_TOKEN_EXPIRES=timedelta(days=7),    # Время жизни refresh-токена
+  JWT_ACCESS_TOKEN_EXPIRES=timedelta(minutes=30),
+  # JWT_REFRESH_TOKEN_EXPIRES=timedelta(days=7),
   JWT_TOKEN_LOCATION=["cookies"],
   JWT_ACCESS_COOKIE_NAME="my_access_token"
 )
@@ -62,7 +62,7 @@ def verify_password(password: str, hashed_password: str) -> bool:
 
 
 @app.post("/register")
-def register_user(user: RegisterUserSchema):
+def register_user(user: RegisterUserSchema, response: Response):
   connection = get_db_connection()
   try:
     with connection.cursor() as cursor:
@@ -73,12 +73,23 @@ def register_user(user: RegisterUserSchema):
       hashed_password = hash_password(user.password)
 
       cursor.execute(
-        "INSERT INTO public.users (name, email, password) VALUES (%s, %s, %s)",
+        "INSERT INTO public.users (name, email, password) VALUES (%s, %s, %s) RETURNING id",
         (user.username, user.email, hashed_password)
       )
-
+      user_id = cursor.fetchone()[0]
       connection.commit()
-      return {"message": "User successfully registered"}
+
+      token = security.create_access_token(uid=str(user_id), expires_delta=timedelta(minutes=30))
+      response.set_cookie(
+        config.JWT_ACCESS_COOKIE_NAME,
+        token,
+        httponly=True,
+        samesite="none",
+        secure=True,
+        max_age=1800,
+        expires=1800,
+      )
+      return {"message": "User successfully registered", "username": user.username}
   except Exception as e:
     raise HTTPException(status_code=500, detail=str(e))
   finally:
@@ -106,8 +117,8 @@ def login_user(user: LoginUserSchema, response: Response):
         httponly=True,
         samesite="none",
         secure=True,
-        max_age=10,
-        expires=10,
+        max_age=30,
+        expires=30,
       )
 
       username = db_user[1]
