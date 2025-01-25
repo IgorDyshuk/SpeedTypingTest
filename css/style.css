@@ -311,16 +311,20 @@ button:hover {
   color: var(--sub-color);
   cursor: pointer;
   margin-left: auto;
+  position: relative;
 }
 
 .nav-bar .profile:hover {
-  p, #login-form {
-    color: var(--main-color);
+  .username, #login-form {
+    color: var(--text-color);
   }
 }
 
-
 #login-form {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
   background-color: var(--bgColor);
   color: var(--sub-color);
 }
@@ -329,9 +333,52 @@ button:hover {
   font-size: 20px;
 }
 
-.nav-bar .profile p {
+.nav-bar .profile .username {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
   font-weight: bolder;
   padding-left: 5px;
+}
+
+.nav-bar .profile .profile-actions{
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--sub-alt-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  z-index: 10;
+  list-style: none;
+  font-size: 14px;
+  overflow: hidden;
+  transition: all 0.1s ease-in-out;
+}
+
+.nav-bar .profile .profile-actions li {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px; /* Отступы внутри элементов */
+  color: var(--text-color); /* Цвет текста */
+  cursor: pointer; /* Курсор-указатель */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-bar .profile .profile-actions li i{
+  margin-right: 6px;
+}
+
+.nav-bar .profile .profile-actions li:hover{
+  background-color: var(--text-color); /* Фон для всего элемента */
+  color: var(--bgColor); /* Цвет текста и всех вложенных элементов */
+}
+
+.nav-bar .profile:hover .profile-actions {
+  visibility: visible;
+  opacity: 1;
 }
 
 .login-container {

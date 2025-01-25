@@ -106,8 +106,8 @@ def login_user(user: LoginUserSchema, response: Response):
         httponly=True,
         samesite="none",
         secure=True,
-        max_age=30,
-        expires=30,
+        max_age=10,
+        expires=10,
       )
 
       username = db_user[1]
@@ -146,3 +146,8 @@ def protected(request: Request):
 
   finally:
     connection.close()
+
+@app.post("/logout")
+def logout(response: Response):
+  response.delete_cookie(config.JWT_ACCESS_COOKIE_NAME, path="/")
+  return {"message": "User successfully logged out"}

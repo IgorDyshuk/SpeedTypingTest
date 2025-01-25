@@ -81,6 +81,9 @@ document.getElementById("sign-in-form").addEventListener("submit", async functio
     const username = document.querySelector(".profile .username")
     username.textContent = data.username;
 
+    const profile_action = document.getElementById("log-text")
+    profile_action.textContent = "Logout";
+
   } catch (error) {
     showNotification(error.message, "error");
   }
@@ -124,6 +127,9 @@ document.getElementById("sign-up-form").addEventListener("submit", async functio
 
     const username = document.querySelector(".profile .username")
     username.textContent = data.username;
+
+    const profile_action = document.getElementById("log-text")
+    profile_action.textContent = "Logout";
   } catch (error) {
     showNotification(error.message, "error");
   }
@@ -136,27 +142,64 @@ window.addEventListener("DOMContentLoaded", async () => {
       credentials: "include",
     });
 
-    if (!response.ok) {
-      throw new Error("Not logged in");
+    const profile_action = document.getElementById("log-text")
+
+    if (response.status === 204) {
+      profile_action.textContent = "Login";
+    } else if (response.ok) {
+      const data = await response.json();
+
+      const loginIcon = document.getElementById("login-icon")
+      loginIcon.classList.remove("far")
+      loginIcon.classList.add("fas")
+
+      const username = document.querySelector(".profile .username")
+      username.textContent = data.username;
+
+      profile_action.textContent = "Logout";
+
+    } else {
+      throw new Error(response.statusText);
     }
-
-    const data = await response.json();
-
-    const loginIcon = document.getElementById("login-icon")
-    loginIcon.classList.remove("far")
-    loginIcon.classList.add("fas")
-
-    const username = document.querySelector(".profile .username")
-    username.textContent = data.username;
-
   } catch (error) {
-    showNotification(error.message, "error");
+    console.log(error.message, "error");
   }
 });
 
-document.getElementById("login-form").addEventListener("click", () => {
-  const container = document.querySelector(".login-container")
-  container.classList.add("open")
+document.getElementById("logout").addEventListener("click", async () => {
+  try {
+    const profile_action = document.getElementById("log-text")
+
+    if (profile_action.textContent === "Login") {
+      const container = document.querySelector(".login-container")
+      container.classList.add("open")
+      return
+    }
+
+    const response = await fetch("http://127.0.0.1:8000/logout", {
+      method: "POST",
+      credentials: "include",
+    })
+
+    if (response.ok) {
+      const data = await response.json();
+
+      const loginIcon = document.getElementById("login-icon")
+      loginIcon.classList.remove("fas")
+      loginIcon.classList.add("far")
+
+      const username = document.querySelector(".profile .username")
+      username.textContent = "";
+
+      profile_action.textContent = "Login";
+
+      showNotification(data.message, "success");
+    } else {
+      throw new Error(response.statusText);
+    }
+  } catch (error) {
+    console.log(error.message, "error");
+  }
 })
 
 document.querySelectorAll(".toggle-panel .fa-times").forEach(toggle => {
