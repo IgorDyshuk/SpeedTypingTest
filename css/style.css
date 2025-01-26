@@ -784,3 +784,8 @@ main{
 #game:focus #cursor {
   display: block;
 }
+
+#cursor.active {
+  animation: none;
+}
+
