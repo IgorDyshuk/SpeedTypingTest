@@ -262,6 +262,7 @@ textarea {
 
 body {
   background-color: var(--bgColor);
+  color: var(--text-color);
   /*display: flex;*/
   /*align-items: center;*/
   /*justify-content: center;*/
@@ -296,13 +297,17 @@ button:hover {
 
 .nav-bar {
   display: flex;
-  padding: 15px 200px;
+  padding: 15px 150px;
   width: 100%;
 }
 
 .nav-bar h2 {
   color: var(--sub-color);
 }
+
+
+
+
 
 .nav-bar .profile {
   display: flex;
@@ -664,3 +669,118 @@ input[type="password"]::placeholder {
   opacity: 1;
 }
 
+main{
+  padding:0 150px
+}
+
+#header{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  margin: 30px 0;
+}
+
+#new_game{
+  text-align: right;
+}
+
+#timer{
+  color: var(--main-color);
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+#new_game button{
+  background-color: var(--sub-alt-color);
+  color: var(--text-color);
+  padding: 10px 20px;
+}
+
+#new_game button:hover{
+  background-color: var(--text-color);
+  color: var(--bgColor);
+}
+
+#game {
+  line-height: 32px;
+  height: 150px;
+  overflow: hidden;
+  position: relative;
+}
+
+#game:focus {
+  outline: none;
+}
+
+#words{
+  filter: blur(3px);
+}
+
+#game:focus #words {
+  filter: blur(0);
+}
+
+#focus-error{
+  position: absolute;
+  inset: 0;
+  text-align: center;
+  padding-top: 57px;
+  font-size: 32px;
+  font-weight: 500;
+}
+
+#game:focus #focus-error{
+  display: none;
+}
+
+#game:focus #game{
+  outline: transparent;
+}
+
+.word {
+  display: inline-block;
+  margin: .25em .3em;
+  font-size: 32px;
+  /*font-family: "Roboto Mono", monospace;*/
+  font-weight: 450;
+  color: var(--sub-color);
+}
+
+.letter.correct {
+  color: var(--text-color);
+}
+
+.letter.incorrect {
+  color: var(--error-color);
+}
+
+.letter.extra{
+  color: var(--error-extra-color)
+}
+
+@keyframes blink {
+  0%{
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+#cursor{
+  display: none;
+  width: 3px;
+  height: 32px;
+  background-color: var(--caret-color);
+  border-radius: 2px;
+  position: fixed;
+  top: 170px;
+  left: 158px;
+  animation: blink 1s infinite;
+}
+
+#game:focus #cursor {
+  display: block;
+}

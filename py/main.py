@@ -110,15 +110,15 @@ def login_user(user: LoginUserSchema, response: Response):
       if not verify_password(user.password, db_user_password):
         raise HTTPException(status_code=401, detail="Incorrect email or password")
 
-      token = security.create_access_token(uid=str(db_user[0]))
+      token = security.create_access_token(uid=str(db_user[0]), expires_delta=timedelta(minutes=30))
       response.set_cookie(
         config.JWT_ACCESS_COOKIE_NAME,
         token,
         httponly=True,
         samesite="none",
         secure=True,
-        max_age=30,
-        expires=30,
+        max_age=1800,
+        expires=1800,
       )
 
       username = db_user[1]
