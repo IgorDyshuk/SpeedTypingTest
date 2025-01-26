@@ -36,6 +36,8 @@ document.getElementById("game").addEventListener('keydown', e => {
   const expected = currenLetter?.innerHTML || ' '
   const isLetter = key.length === 1 && key !== " "
   const isSpace = key === ' '
+  const isBackspace = key === 'Backspace'
+  const isFirstLetter = currenLetter === currentWord.firstChild
 
   console.log({key, expected})
 
@@ -67,6 +69,28 @@ document.getElementById("game").addEventListener('keydown', e => {
       removeClass(currenLetter, "current")
     }
     addClass(currentWord.nextSibling.firstChild, "current")
+  }
+
+  if (isBackspace) {
+    if (currenLetter && isFirstLetter) {
+      removeClass(currentWord, "current")
+      addClass(currentWord.previousSibling, "current")
+      removeClass(currenLetter, "current")
+      addClass(currentWord.previousSibling.lastChild, "current")
+      removeClass(currentWord.previousSibling.lastChild, "incorrect")
+      removeClass(currentWord.previousSibling.lastChild, "correct")
+    }
+    if (currenLetter && !isFirstLetter) {
+      removeClass(currenLetter, "current")
+      addClass(currenLetter.previousSibling, "current")
+      removeClass(currenLetter.previousSibling, "correct")
+      removeClass(currenLetter.previousSibling, "incorrect")
+    }
+    if (!currenLetter) {
+      addClass(currentWord.lastChild, "current")
+      removeClass(currentWord.lastChild, "correct")
+      removeClass(currentWord.lastChild, "incorrect")
+    }
   }
 
   // move cursor
