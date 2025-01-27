@@ -789,3 +789,15 @@ main{
   animation: none;
 }
 
+#game.over #words{
+  opacity: .5
+}
+
+#game.over:focus #cursor{
+  display: none;
+}
+
+#game.over:focus #focus-error{
+  display: none;
+}
+
