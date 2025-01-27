@@ -92,6 +92,12 @@ document.getElementById("game").addEventListener('keydown', e => {
       removeClass(currentWord.lastChild, "incorrect")
     }
   }
+  //move lines / words
+  if (currentWord.getBoundingClientRect().top > 250) {
+    const words = document.getElementById('words')
+    const margin = parseInt(words.style.marginTop || '0px')
+    words.style.marginTop =( margin - 48) + 'px'
+  }
 
   // move cursor
   const nextLetter =document.querySelector(".letter.current")
