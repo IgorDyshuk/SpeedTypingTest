@@ -55,6 +55,38 @@ function gameOver() {
   document.getElementById("timer").innerHTML = `WPM: ${result}`;
 }
 
+function restGameUI() {
+  clearInterval(window.timer);
+  window.timer = null;
+  window.gameStart = null;
+
+  document.getElementById("game").classList.remove("over");
+
+  document.getElementById("timer").innerHTML = (gameTime / 1000).toString();
+
+  const wordsContainer = document.getElementById("words");
+  wordsContainer.style.marginTop = "0px";
+
+  const cursor = document.getElementById("cursor");
+  const firstLetter = document.querySelector(".word .letter");
+
+  cursor.style.top = firstLetter.getBoundingClientRect().top + 4 + "px";
+  cursor.style.left = firstLetter.getBoundingClientRect().left - 1 + "px";
+  cursor.classList.remove("active");
+
+  const allWords = document.querySelectorAll(".word");
+  allWords.forEach((word) => word.classList.remove("current"));
+
+  const allLetters = document.querySelectorAll(".letter");
+  allLetters.forEach((letter) =>
+    letter.classList.remove("current", "correct", "incorrect", "extra")
+  );
+
+  const firstWord = document.querySelector(".word");
+  firstWord.classList.add("current");
+  firstWord.querySelector(".letter").classList.add("current");
+}
+
 document.getElementById("game").addEventListener('keydown', e => {
   const key = e.key
   const currentWord = document.querySelector(".word.current")
@@ -153,6 +185,11 @@ document.getElementById("game").addEventListener('keydown', e => {
   cursor.style.top = (nextLetter || nextWord).getBoundingClientRect().top + 4 + 'px'
   cursor.style.left = (nextLetter || nextWord).getBoundingClientRect()[nextLetter ? 'left' : 'right'] - 1 + 'px'
   cursor.classList.add('active')
+})
+
+document.getElementById('new_game_button').addEventListener('click', () => {
+  restGameUI()
+  newGame()
 })
 
 newGame();
