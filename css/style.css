@@ -740,9 +740,12 @@ main{
   display: inline-block;
   margin: .25em .3em;
   font-size: 32px;
-  /*font-family: "Roboto Mono", monospace;*/
   font-weight: 450;
   color: var(--sub-color);
+}
+
+.word.incorrect {
+  border-bottom: 3px solid var(--error-color);
 }
 
 .letter.correct {

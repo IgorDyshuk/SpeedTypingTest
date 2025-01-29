@@ -42,7 +42,7 @@ function getWpm() {
   const correctWords = typedWords.filter(word => {
     const letters = [...word.children]
     const incorrectLetters = letters.filter(letter => letter.classList.contains('incorrect'))
-    const  correctLetters = letters.filter(letter => letter.classList.contains('correct'))
+    const correctLetters = letters.filter(letter => letter.classList.contains('correct'))
     return incorrectLetters.length === 0 && correctLetters.length === letters.length
   })
   return correctWords.length / gameTime * 60000
@@ -142,6 +142,14 @@ document.getElementById("game").addEventListener('keydown', e => {
         addClass(el, "incorrect")
       })
     }
+
+    const incorrectLetters = currentWord.querySelectorAll('.letter.incorrect, .letter.extra')
+    if (incorrectLetters.length > 0) {
+      addClass(currentWord, "incorrect")
+    } else {
+      removeClass(currentWord, "incorrect")
+    }
+
     removeClass(currentWord, "current")
     addClass(currentWord.nextSibling, "current")
     if (currenLetter) {
@@ -152,12 +160,27 @@ document.getElementById("game").addEventListener('keydown', e => {
 
   if (isBackspace) {
     if (currenLetter && isFirstLetter) {
-      removeClass(currentWord, "current")
-      addClass(currentWord.previousSibling, "current")
-      removeClass(currenLetter, "current")
-      addClass(currentWord.previousSibling.lastChild, "current")
-      removeClass(currentWord.previousSibling.lastChild, "incorrect")
-      removeClass(currentWord.previousSibling.lastChild, "correct")
+      const prevWord = currentWord.previousSibling
+      const nextWordIncorrect = [...prevWord.querySelectorAll('.letter.incorrect, .letter.extra')]
+      if (nextWordIncorrect.length === 0) {
+
+      } else {
+        removeClass(currentWord, "current")
+        addClass(prevWord, "current")
+        removeClass(currenLetter, "current")
+
+        const prevWordExtra = [...prevWord.querySelectorAll('.letter.extra')]
+        if (prevWordExtra.length > 0) {
+          const lastExtraLetter = prevWordExtra[prevWordExtra.length - 1]
+          addClass(lastExtraLetter, "current")
+          lastExtraLetter.remove()
+        } else {
+          addClass(prevWord.lastChild, "current")
+          removeClass(prevWord.lastChild, "incorrect")
+          removeClass(prevWord.lastChild, "correct")
+        }
+        removeClass(prevWord, "incorrect")
+      }
     }
     if (currenLetter && !isFirstLetter) {
       removeClass(currenLetter, "current")
@@ -167,7 +190,7 @@ document.getElementById("game").addEventListener('keydown', e => {
     }
     if (!currenLetter) {
       const extraLetters = [...currentWord.querySelectorAll('.letter.extra')]
-      if (extraLetters.length > 0 ){
+      if (extraLetters.length > 0) {
         const lastExtraLetter = extraLetters[extraLetters.length - 1]
         lastExtraLetter.remove()
       } else {
