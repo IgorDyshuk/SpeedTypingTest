@@ -166,9 +166,15 @@ document.getElementById("game").addEventListener('keydown', e => {
       removeClass(currenLetter.previousSibling, "incorrect")
     }
     if (!currenLetter) {
-      addClass(currentWord.lastChild, "current")
-      removeClass(currentWord.lastChild, "correct")
-      removeClass(currentWord.lastChild, "incorrect")
+      const extraLetters = [...currentWord.querySelectorAll('.letter.extra')]
+      if (extraLetters.length > 0 ){
+        const lastExtraLetter = extraLetters[extraLetters.length - 1]
+        lastExtraLetter.remove()
+      } else {
+        addClass(currentWord.lastChild, "current")
+        removeClass(currentWord.lastChild, "correct")
+        removeClass(currentWord.lastChild, "incorrect")
+      }
     }
   }
   //move lines / words
