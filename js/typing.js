@@ -137,6 +137,11 @@ document.getElementById("game").addEventListener('keydown', e => {
   }
 
   if (isSpace) {
+    if (!window.timer) {
+      e.preventDefault()
+      return
+    }
+
     if (expected !== ' ') {
       const letterToInvalidate = [...document.querySelectorAll('.word.current .letter:not(.correct)')]
       letterToInvalidate.forEach(el => {
