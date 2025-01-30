@@ -96,6 +96,7 @@ document.getElementById("game").addEventListener('keydown', e => {
   const isSpace = key === ' '
   const isBackspace = key === 'Backspace'
   const isFirstLetter = currenLetter === currentWord.firstChild
+  const isCtrlBackspace = key === 'Backspace' && e.ctrlKey
 
   if (document.querySelector('#game.over')) {
     return;
@@ -200,6 +201,65 @@ document.getElementById("game").addEventListener('keydown', e => {
       }
     }
   }
+
+  if (isCtrlBackspace) {
+    e.preventDefault()
+
+    if (currenLetter) {
+      const letters = [...currentWord.children]
+      const currentIndex = letters.indexOf(currenLetter)
+      console.log(currentIndex)
+
+      for (let i = 0; i < currentIndex; i++) {
+        if (letters[i]) {
+          removeClass(letters[i], "incorrect")
+          removeClass(letters[i], "correct")
+          removeClass(letters[i], "current")
+        }
+      }
+      addClass(currentWord.firstChild, "current")
+    } else {
+      const allLetters = currentWord.querySelectorAll('.letter')
+      allLetters.forEach(el => {
+        removeClass(el, "incorrect")
+        removeClass(el, "correct")
+        removeClass(el, "current")
+      })
+
+      const extraLetters = currentWord.querySelectorAll('.letter.extra')
+      extraLetters.forEach(el => {el.remove()})
+
+      if (currentWord.firstChild) {
+        addClass(currentWord.firstChild, "current")
+      }
+    }
+
+    if (currenLetter && isFirstLetter) {
+      const prevWord = currentWord.previousSibling
+      const nextWordIncorrect = [...prevWord.querySelectorAll('.letter.incorrect, .letter.extra')]
+      if (nextWordIncorrect.length === 0) {
+
+      } else {
+        removeClass(currentWord, "current")
+        removeClass(currenLetter, "current")
+
+        const allLettersPrev = prevWord.querySelectorAll('.letter')
+        allLettersPrev.forEach(el => {
+          removeClass(el, "incorrect")
+          removeClass(el, "correct")
+          removeClass(el, "current")
+        })
+
+        const extraLetters = prevWord.querySelectorAll('.letter.extra')
+        extraLetters.forEach(el => {el.remove()})
+
+        addClass(prevWord.firstChild, "current")
+
+        removeClass(prevWord, "incorrect")
+      }
+    }
+  }
+
   //move lines / words
   if (currentWord.getBoundingClientRect().top > 250) {
     const words = document.getElementById('words')

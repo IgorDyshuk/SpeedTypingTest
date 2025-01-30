@@ -782,6 +782,7 @@ main{
   top: 170px;
   left: 158px;
   animation: blink 1s infinite;
+  transition: left 0.07s ease-in-out;
 }
 
 #game:focus #cursor {
