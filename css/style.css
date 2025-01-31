@@ -745,7 +745,7 @@ main{
 }
 
 .word.incorrect {
-  border-bottom: 3px solid var(--error-color);
+  box-shadow: 0 2px 0 var(--error-color);
 }
 
 .letter.correct {
