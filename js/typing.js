@@ -36,11 +36,8 @@ function newGame() {
 
 function getWpm() {
   const words = [...document.querySelectorAll(".word")]
-  // const lastTypedWord = document.querySelector('.word .current')
-  // const lastTypedWordIndex = words.indexOf(lastTypedWord)
-  // const typedWords = words.slice(0, lastTypedWordIndex)
   const typedWords = words.filter(word => {
-    return word.querySelector(".letter.correct, .letter.incorrect") !== null; // Проверяем, есть ли окрашенные буквы
+    return word.querySelector(".letter.correct, .letter.incorrect") !== null;
   });
   const correctWords = typedWords.filter(word => {
     const letters = [...word.children]
@@ -312,13 +309,14 @@ document.getElementById("game").addEventListener('keydown', e => {
   if (nextLetter || nextWord) {
     const rect = (nextLetter || nextWord).getBoundingClientRect()
     cursor.style.top = rect.top + (rect.height / 2) - (cursor.offsetHeight / 2) + 'px'
+    console.log(rect.top + (rect.height / 2) - (cursor.offsetHeight / 2) + 'px')
     cursor.style.left = (nextLetter ? rect.left : rect.right) - 1 + "px"
 
     cursor.classList.add('active')
   }
 })
 
-document.getElementById('new_game_button').addEventListener('click', () => {
+document.getElementById('restart-btn').addEventListener('click', () => {
   restGameUI()
   newGame()
 })

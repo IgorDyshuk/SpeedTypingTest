@@ -297,16 +297,13 @@ button:hover {
 
 .nav-bar {
   display: flex;
-  padding: 15px 150px;
+  padding: 30px 150px;
   width: 100%;
 }
 
 .nav-bar h2 {
   color: var(--sub-color);
 }
-
-
-
 
 
 .nav-bar .profile {
@@ -326,7 +323,7 @@ button:hover {
 }
 
 #login-form {
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   margin-left: auto;
@@ -339,7 +336,7 @@ button:hover {
 }
 
 .nav-bar .profile .username {
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   margin-left: auto;
@@ -347,7 +344,7 @@ button:hover {
   padding-left: 5px;
 }
 
-.nav-bar .profile .profile-actions{
+.nav-bar .profile .profile-actions {
   visibility: hidden;
   opacity: 0;
   position: absolute;
@@ -372,11 +369,11 @@ button:hover {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.nav-bar .profile .profile-actions li i{
+.nav-bar .profile .profile-actions li i {
   margin-right: 6px;
 }
 
-.nav-bar .profile .profile-actions li:hover{
+.nav-bar .profile .profile-actions li:hover {
   background-color: var(--text-color);
   color: var(--bgColor);
 }
@@ -504,7 +501,7 @@ button:hover {
   transition: all 0.6s ease-in-out;
 }
 
-.from-container h1{
+.from-container h1 {
   padding-bottom: 20px;
 }
 
@@ -640,7 +637,7 @@ input[type="password"]::placeholder {
   letter-spacing: normal;
 }
 
-.notification{
+.notification {
   position: fixed;
   top: 20px;
   right: 20px;
@@ -654,48 +651,48 @@ input[type="password"]::placeholder {
   transition: all 0.15s ease-in-out;
 }
 
-.notification.error{
+.notification.error {
   color: red;
   border: 2px solid red;
 }
 
-.notification.hidden{
+.notification.hidden {
   visibility: hidden;
   opacity: 0;
 }
 
-.notification.visible{
+.notification.visible {
   visibility: visible;
   opacity: 1;
 }
 
-main{
-  padding:0 150px
+main {
+  padding: 0 150px
 }
 
-#header{
-  display:grid;
+#header {
+  display: grid;
   grid-template-columns:1fr 1fr;
-  margin: 30px 0;
+  margin: 30px 0 50px 0;
 }
 
-#new_game{
+#new_game {
   text-align: right;
 }
 
-#timer{
+#timer {
   color: var(--main-color);
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bolder;
 }
 
-#new_game button{
+#new_game button {
   background-color: var(--sub-alt-color);
   color: var(--text-color);
   padding: 10px 20px;
 }
 
-#new_game button:hover{
+#new_game button:hover {
   background-color: var(--text-color);
   color: var(--bgColor);
 }
@@ -711,7 +708,7 @@ main{
   outline: none;
 }
 
-#words{
+#words {
   filter: blur(3px);
 }
 
@@ -719,7 +716,7 @@ main{
   filter: blur(0);
 }
 
-#focus-error{
+#focus-error {
   position: absolute;
   inset: 0;
   text-align: center;
@@ -728,11 +725,11 @@ main{
   font-weight: 500;
 }
 
-#game:focus #focus-error{
+#game:focus #focus-error {
   display: none;
 }
 
-#game:focus #game{
+#game:focus #game {
   outline: transparent;
 }
 
@@ -756,30 +753,30 @@ main{
   color: var(--error-color);
 }
 
-.letter.extra{
+.letter.extra {
   color: var(--error-extra-color)
 }
 
 @keyframes blink {
-  0%{
+  0% {
     opacity: 1;
   }
   50% {
     opacity: 0;
   }
-  100%{
+  100% {
     opacity: 1;
   }
 }
 
-#cursor{
+#cursor {
   display: none;
   width: 3px;
   height: 32px;
   background-color: var(--caret-color);
   border-radius: 2px;
   position: fixed;
-  top: 170px;
+  top: 223px;
   left: 158px;
   animation: blink 1s infinite;
   transition: left 0.07s ease-in-out;
@@ -793,15 +790,70 @@ main{
   animation: none;
 }
 
-#game.over #words{
+#game.over #words {
   opacity: .5
 }
 
-#game.over:focus #cursor{
+#game.over:focus #cursor {
   display: none;
 }
 
-#game.over:focus #focus-error{
+#game.over:focus #focus-error {
   display: none;
 }
 
+.restart {
+  margin-top: 10px;
+  text-align: center;
+}
+
+#restart-btn {
+  font-size: 19px;
+  color: var(--sub-color);
+  background-color: var(--bgColor);
+  position: relative;
+}
+
+#restart-btn:hover {
+  color: var(--text-color);
+}
+
+#restart-btn::before {
+  content: "Restart Test";
+  position: absolute;
+  top: 37px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  white-space: nowrap;
+  color: var(--text-color);
+  background-color: black;
+  padding: 10px 20px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: all 0.18s ease-in-out;
+}
+
+#restart-btn::after {
+  content: "";
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-bottom: 0.625rem solid black;
+  border-left: 0.5rem solid transparent;
+  border-right: 0.5rem solid transparent;
+  opacity: 0;
+  transition: all 0.18s ease-in-out;
+}
+
+#restart-btn:hover::before {
+  opacity: 1;
+  top: 47px;
+}
+#restart-btn:hover::after {
+  opacity: 1;
+  top: 38px;
+}
