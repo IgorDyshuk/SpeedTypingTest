@@ -56,10 +56,13 @@ function getWpm() {
 }
 
 function gameOver() {
+  document.getElementById("timer").style.opacity = "0";
+  document.getElementById("timer").style.visibility = "hidden";
+
   clearInterval(window.timer)
   addClass(document.getElementById("game"), 'over')
   const result = getWpm()
-  document.getElementById("timer").innerHTML = `WPM: ${result.wpm} ${result.accuracy}`;
+  // document.getElementById("timer").innerHTML = `WPM: ${result.wpm} ${result.accuracy}`;
 }
 
 function restGameUI() {
@@ -113,6 +116,12 @@ document.getElementById("game").addEventListener('keydown', e => {
 })
 
 document.getElementById("game").addEventListener('keydown', e => {
+  if (document.getElementById("game").classList.contains('over')) {
+    return;
+  }
+
+  document.getElementById('timer').style.opacity = "1"
+  document.getElementById('timer').style.visibility = "visible"
   const key = e.key
   const currentWord = document.querySelector(".word.current")
   const currenLetter = document.querySelector(".letter.current")

@@ -673,28 +673,18 @@ main {
 #header {
   display: grid;
   grid-template-columns:1fr 1fr;
-  margin: 30px 0 50px 0;
+  margin: 56px 0 10px 0;
 }
 
-#new_game {
-  text-align: right;
-}
 
 #timer {
   color: var(--main-color);
-  font-size: 30px;
+  font-size: 40px;
   font-weight: bolder;
-}
-
-#new_game button {
-  background-color: var(--sub-alt-color);
-  color: var(--text-color);
-  padding: 10px 20px;
-}
-
-#new_game button:hover {
-  background-color: var(--text-color);
-  color: var(--bgColor);
+  margin-left: 6px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.15s ease-in-out;
 }
 
 #game {
