@@ -85,7 +85,25 @@ function restGameUI() {
   const firstWord = document.querySelector(".word");
   firstWord.classList.add("current");
   firstWord.querySelector(".letter").classList.add("current");
+
+  const gameElement = document.getElementById("game")
+  gameElement.focus();
 }
+
+window.addEventListener('load', () => {
+  const gameElement = document.getElementById("game")
+  if (gameElement) {
+    gameElement.focus()
+  }
+})
+
+
+document.getElementById("game").addEventListener('keydown', e => {
+  const allowKeys = /^[a-zA-Z0-9\s\b]$/
+  if (!allowKeys.test(e.key)) {
+    e.preventDefault()
+  }
+})
 
 document.getElementById("game").addEventListener('keydown', e => {
   const key = e.key
@@ -232,7 +250,9 @@ document.getElementById("game").addEventListener('keydown', e => {
       })
 
       const extraLetters = currentWord.querySelectorAll('.letter.extra')
-      extraLetters.forEach(el => {el.remove()})
+      extraLetters.forEach(el => {
+        el.remove()
+      })
 
       if (currentWord.firstChild) {
         addClass(currentWord.firstChild, "current")
@@ -256,7 +276,9 @@ document.getElementById("game").addEventListener('keydown', e => {
         })
 
         const extraLetters = prevWord.querySelectorAll('.letter.extra')
-        extraLetters.forEach(el => {el.remove()})
+        extraLetters.forEach(el => {
+          el.remove()
+        })
 
         addClass(prevWord.firstChild, "current")
 
