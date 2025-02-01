@@ -299,6 +299,7 @@ button:hover {
   display: flex;
   padding: 30px 150px;
   width: 100%;
+  transition: all 0.15s ease-in-out;
 }
 
 .nav-bar h2 {
@@ -843,7 +844,38 @@ main {
   opacity: 1;
   top: 47px;
 }
+
 #restart-btn:hover::after {
   opacity: 1;
   top: 38px;
+}
+
+.result-section {
+  opacity: 0;
+  margin-top: 110px;
+  display: flex;
+  justify-content: space-between;
+  color: var(--sub-color);
+  font-size: 30px;
+  transition: all 0.15s ease-in-out;
+}
+
+.result-section p {
+  text-align: center;
+  font-size: 60px;
+  font-weight: bolder;
+  color: var(--main-color);
+}
+
+#comparison {
+  font-size: 30px;
+  padding-top: 20px;
+}
+
+#comparison.better {
+  color: limegreen;
+}
+
+#comparison.worse {
+  color: red;
 }
