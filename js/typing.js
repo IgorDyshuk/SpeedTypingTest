@@ -24,12 +24,52 @@ function formatWord(word) {
 
 }
 
-document.querySelectorAll('input[name="time"]').forEach((radio) => {
-  radio.addEventListener('change',  (e) => {
+document.querySelectorAll('input[name="time"]').forEach(radio => {
+  radio.addEventListener('change', (e) => {
     gameTime = parseInt(e.target.value);
-    document.getElementById('timer').innerHTML = (gameTime/1000) + '';
-  })
-})
+    document.getElementById("timer").innerHTML = (gameTime / 1000) + '';
+    document.getElementById("custom-time").value = '';
+
+    let customTime = document.getElementById("entered-time")
+    customTime.innerHTML = '';
+    customTime.style.width = '0';
+    customTime.style.marginRight = '0';
+  });
+});
+
+document.querySelector('.search i').addEventListener('click', () => {
+  document.querySelector('.search').classList.add('open');
+  document.getElementById("custom-time").focus();
+});
+
+document.getElementById("custom-time").addEventListener('input', (e) => {
+  let customTime = parseInt(e.target.value) * 1000;
+  if (!isNaN(customTime) && customTime > 0) {
+    gameTime = customTime;
+    document.getElementById("timer").innerHTML = (gameTime / 1000) + '';
+    document.querySelectorAll('input[name="time"]').forEach(radio => radio.checked = false);
+  } else {
+    gameTime = 30000;
+    document.getElementById("timer").innerHTML = (gameTime / 1000) + '';
+
+  }
+});
+
+document.addEventListener('click', (e) => {
+  const searchBox = document.querySelector('.search');
+  const customInput = document.getElementById('custom-time');
+  const defaultRadio = document.getElementById('time-30')
+  if (!searchBox.contains(e.target)) {
+    searchBox.classList.remove('open');
+    let customTime = document.getElementById("entered-time")
+
+    if (customInput.value.trim() !== '') {
+      customTime.innerHTML = (gameTime / 1000) + '';
+      customTime.style.width = '100%';
+      customTime.style.marginRight = '9px';
+    }
+  }
+});
 
 function newGame() {
   document.getElementById("words").innerHTML = '';
@@ -54,7 +94,7 @@ function getWpm() {
     return incorrectLetters.length === 0 && correctLetters.length === letters.length
   })
 
-  const wpm = correctWords.length / gameTime * 60000
+  const wpm = Math.floor(correctWords.length / gameTime * 60000)
   const accuracy = typedWords.length > 0 ? Math.floor((correctWords.length / typedWords.length) * 100) : 0;
 
   return {
