@@ -30,6 +30,33 @@
 <!-- Add your site or application content here -->
 <div class="nav-bar">
   <h2>Speed Typing Test</h2>
+  <div class="game-settings">
+    <div class="languages">
+      <i class="fas fa-globe-americas"></i>
+      Lang:
+      <form action="" class="lang-form">
+        <input type="radio" name="language" id="en-lang" value="en" checked>
+        <label for="en-lang">eng</label>
+        <input type="radio" name="language" id="uk-lang" value="uk">
+        <label for="uk-lang">ukr</label>
+        <input type="radio" name="language" id="ru-lang" value="ru">
+        <label for="ru-lang">rus</label>
+      </form>
+    </div>
+    <div class="spacer"></div>
+    <div class="times">
+      <i class="fas fa-fw fa-clock"></i>
+      time:
+      <form action="" class="time-form">
+        <input type="radio" name="time" id="15" value="15000">
+        <label for="15">15</label>
+        <input type="radio" name="time" id="30" value="30000" checked>
+        <label for="30">30</label>
+        <input type="radio" name="time" id="60" value="60000">
+        <label for="60">60</label>
+      </form>
+    </div>
+  </div>
   <div class="logo"></div>
   <div class="menu"></div>
   <div class="profile">
@@ -123,7 +150,7 @@
   <div id="game" tabindex="-1">
     <div id="words"></div>
     <div id="cursor"></div>
-    <div id="focus-error">Click here to focus</div>
+    <div id="focus-error"><i class="fas fa-fw fa-mouse-pointer"></i>Click here to focus</div>
   </div>
   <div class="restart">
     <button id="restart-btn"><i class="fas fa-fw fa-redo-alt"></i></button>
