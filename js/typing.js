@@ -25,6 +25,8 @@ document.querySelectorAll('input[name="language"]').forEach(radio => {
     }
     wordsCount = words.length;
     newGame();
+    const gameElement = document.getElementById("game")
+    gameElement.focus();
   });
 });
 
@@ -48,6 +50,9 @@ document.querySelectorAll('input[name="time"]').forEach(radio => {
     customTime.innerHTML = '';
     customTime.style.width = '0';
     customTime.style.marginRight = '0';
+
+    const gameElement = document.getElementById("game")
+    gameElement.focus();
   });
 });
 
@@ -394,7 +399,8 @@ document.getElementById("game").addEventListener('keydown', e => {
   }
 
   //move lines / words
-  if (currentWord.getBoundingClientRect().top > 300) {
+  const nextWord = document.querySelector(".word.current")
+  if (nextWord && nextWord.getBoundingClientRect().top > 300) {
     const words = document.getElementById('words')
     const margin = parseInt(words.style.marginTop || '0px')
     words.style.marginTop = (margin - 48) + 'px'
@@ -402,7 +408,6 @@ document.getElementById("game").addEventListener('keydown', e => {
 
   // move cursor
   const nextLetter = document.querySelector(".letter.current")
-  const nextWord = document.querySelector(".word.current")
   const cursor = document.getElementById("cursor")
 
   if (nextLetter || nextWord) {
