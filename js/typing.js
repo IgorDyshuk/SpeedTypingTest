@@ -234,10 +234,10 @@ document.getElementById("game").addEventListener('keydown', e => {
   console.log({key, expected})
 
   if (!window.timer && isLetter) {
+    window.gameStart = (new Date()).getTime()
+    document.getElementById("timer").innerHTML = (gameTime / 1000) + ''
+
     window.timer = setInterval(() => {
-      if (!window.gameStart) {
-        window.gameStart = (new Date()).getTime()
-      }
       const currentTime = (new Date()).getTime()
       const msPassed = currentTime - window.gameStart
       const sPassed = Math.round(msPassed / 1000)
