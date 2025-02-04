@@ -793,11 +793,12 @@ main {
 }
 
 #words {
-  filter: blur(3px);
+  opacity: 1;
+  transition:all 0.15s ease-in-out;
 }
 
-#game:focus #words {
-  filter: blur(0);
+#words.fade-out{
+  opacity: 0;
 }
 
 #focus-error {
@@ -807,10 +808,14 @@ main {
   padding-top: 57px;
   font-size: 32px;
   font-weight: 500;
+  opacity: 0;
+  visibility: visible;
+  transition: all 0.15s ease-in-out;
 }
 
 #game:focus #focus-error {
-  display: none;
+  opacity: 0;
+  visibility: hidden;
 }
 
 #game:focus #game {
@@ -843,6 +848,18 @@ main {
 
 @keyframes blink {
   0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes blink1 {
+  0% {
     opacity: 1;
   }
   50% {
@@ -862,8 +879,9 @@ main {
   position: fixed;
   top: 223px;
   left: 158px;
+  opacity: 1;
   animation: blink 1s infinite;
-  transition: left 0.07s ease-in-out;
+  transition: left 0.07s ease-in-out, opacity 0.15s ease-in-out;
 }
 
 #game:focus #cursor {

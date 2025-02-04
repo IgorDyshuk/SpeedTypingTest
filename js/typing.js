@@ -7,6 +7,33 @@ let gameTime = 30000
 let prevRes = null
 window.timer = null
 window.gameStart = null
+let focusTimer = null;
+let idleBlinkTimer = null;
+
+document.getElementById("game").addEventListener("focusout", () => {
+  if (focusTimer) {
+    clearTimeout(focusTimer);
+  }
+
+  focusTimer = setTimeout(() => {
+    if (document.activeElement !== document.getElementById("game")) {
+      document.getElementById("focus-error").style.opacity = "1";
+      document.getElementById("focus-error").style.visibility = "visible";
+      document.getElementById("words").style.filter = "blur(3px)";
+    }
+  }, 3000);
+});
+
+document.getElementById("game").addEventListener("focus", () => {
+  if (focusTimer) {
+    clearTimeout(focusTimer);
+    focusTimer = null;
+  }
+
+  document.getElementById("focus-error").style.opacity = "0";
+  document.getElementById("focus-error").style.visibility = "hidden";
+  document.getElementById("words").style.filter = "blur(0)";
+});
 
 function addClass(el, name) {
   el.className += ' ' + name
@@ -19,16 +46,46 @@ function removeClass(el, name) {
 
 document.querySelectorAll('input[name="language"]').forEach(radio => {
   radio.addEventListener('change', (e) => {
-    words = window[e.target.value];
-    if (!words) {
+    const gameElement = document.getElementById("game");
+
+    if (gameElement.classList.contains("over")) {
+      e.target.checked = false;
+
+      document.querySelector(`input[name="language"][value="${words === window.eng_words ? 'eng_words' : words === window.ru_words ? 'ru_words' : 'ukr_words'}"]`).checked = true;
+
       return;
     }
-    wordsCount = words.length;
-    newGame();
-    const gameElement = document.getElementById("game")
-    gameElement.focus();
+
+    const wordsContainer = document.getElementById("words");
+    wordsContainer.classList.add("fade-out");
+    const cursor = document.getElementById("cursor");
+    cursor.style.animation = "none";
+    cursor.style.opacity = "0";
+    const restartBtn = document.getElementById("restart-btn");
+    restartBtn.style.opacity = "0";
+
+    wordsContainer.addEventListener("transitionend", function handleTransition() {
+      wordsContainer.removeEventListener("transitionend", handleTransition);
+
+      words = window[e.target.value];
+      if (!words) return;
+      wordsCount = words.length;
+
+      newGame();
+
+      setTimeout(() => {
+        wordsContainer.classList.remove("fade-out");
+        cursor.style.opacity = "1";
+        cursor.style.animation = "blink 1s infinite";
+        restartBtn.style.opacity = "1";
+      }, 10);
+
+      const gameElement = document.getElementById("game");
+      gameElement.focus();
+    });
   });
 });
+
 
 function randomWord() {
   const randomIndex = Math.ceil(Math.random() * wordsCount);
@@ -54,6 +111,12 @@ document.querySelectorAll('input[name="time"]').forEach(radio => {
     const gameElement = document.getElementById("game")
     gameElement.focus();
   });
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) {
+    document.getElementById("game").focus();
+  }
 });
 
 document.querySelector('.search i').addEventListener('click', () => {
@@ -90,6 +153,8 @@ document.addEventListener('click', (e) => {
 });
 
 function newGame() {
+  const gameElement = document.getElementById("game")
+  gameElement.focus();
   document.getElementById("words").innerHTML = '';
   for (let i = 0; i < 200; i++) {
     document.getElementById("words").innerHTML += formatWord(randomWord());
@@ -170,7 +235,7 @@ function restGameUI() {
 
   cursor.style.top = firstLetter.getBoundingClientRect().top + 4 + "px";
   cursor.style.left = firstLetter.getBoundingClientRect().left - 1 + "px";
-  cursor.classList.remove("active");
+  cursor.style.animation = "blink 1s infinite"
 
   const allWords = document.querySelectorAll(".word");
   allWords.forEach((word) => word.classList.remove("current"));
@@ -217,6 +282,18 @@ document.getElementById("game").addEventListener('keydown', e => {
 
   document.getElementById('timer').style.opacity = "1"
   document.getElementById('timer').style.visibility = "visible"
+
+  const cursor = document.getElementById("cursor");
+  cursor.style.animation = "none";
+
+  if (idleBlinkTimer) {
+    clearTimeout(idleBlinkTimer);
+  }
+
+  idleBlinkTimer = setTimeout(() => {
+    cursor.style.animation = "blink1 1s infinite";
+  }, 3000);
+
   const key = e.key
   const currentWord = document.querySelector(".word.current")
   const currenLetter = document.querySelector(".letter.current")
@@ -408,7 +485,6 @@ document.getElementById("game").addEventListener('keydown', e => {
 
   // move cursor
   const nextLetter = document.querySelector(".letter.current")
-  const cursor = document.getElementById("cursor")
 
   if (nextLetter || nextWord) {
     const rect = (nextLetter || nextWord).getBoundingClientRect()
@@ -416,7 +492,7 @@ document.getElementById("game").addEventListener('keydown', e => {
     console.log(rect.top + (rect.height / 2) - (cursor.offsetHeight / 2) + 'px')
     cursor.style.left = (nextLetter ? rect.left : rect.right) - 1 + "px"
 
-    cursor.classList.add('active')
+    // cursor.classList.add('active')
   }
 })
 
