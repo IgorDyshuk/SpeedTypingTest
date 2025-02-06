@@ -480,7 +480,8 @@ document.getElementById("game").addEventListener('keydown', e => {
   if (nextWord && nextWord.getBoundingClientRect().top > 300) {
     const words = document.getElementById('words')
     const margin = parseInt(words.style.marginTop || '0px')
-    words.style.marginTop = (margin - 48) + 'px'
+    const wordHeight = (document.getElementById('game').getBoundingClientRect().height) / 3;
+    words.style.marginTop = (margin - wordHeight) + 'px'
   }
 
   // move cursor
@@ -491,8 +492,6 @@ document.getElementById("game").addEventListener('keydown', e => {
     cursor.style.top = rect.top + (rect.height / 2) - (cursor.offsetHeight / 2) + 'px'
     console.log(rect.top + (rect.height / 2) - (cursor.offsetHeight / 2) + 'px')
     cursor.style.left = (nextLetter ? rect.left : rect.right) - 1 + "px"
-
-    // cursor.classList.add('active')
   }
 })
 
