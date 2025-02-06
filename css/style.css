@@ -990,3 +990,8 @@ main {
 #comparison.worse {
   color: red;
 }
+
+#best-score.login-error{
+  font-size: 30px;
+  white-space: pre-line;
+}

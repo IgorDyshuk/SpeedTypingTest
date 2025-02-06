@@ -1,3 +1,5 @@
+import {showNotification} from "./notifications.js";
+
 window.eng_words = 'in one good real one not school set they state high life consider on and not come what also for set point can want as while with of order child about school thing never hold find order each too between program work end you home place around while place problem end begin interest while public or where see time those increase interest be give end think seem small as both another a child same eye you between way do who into again good fact than under very head become real possible some write know however late each that with because that place nation only for each change form consider we would interest with world so order or run more open that large write turn never over open each over change still old take hold need give by consider line only leave while what set up number part form want against great problem can because head so first this here would course become help year first end want both fact public long word down also long for without new turn against the because write seem line interest call not if line thing what work people way may old consider leave hold want life between most place may if go who need fact such program where which end off child down change to from people high during people find to however into small new general it do that could old for last get another hand much eye great no work and with but good there last think can around use like number never since world need what we around part show new come seem while some and since still small these you general which seem will place come order form how about just also they with state late use both early too lead general seem there point take general seem few out like might under if ask while such interest feel word right again how about system such between late want fact up problem stand new say move a lead small however large public out by eye here over so be way use like say people work for since interest so face order school good not most run problem group run she late other problem real form what just high no man do under would to each too end point give number child through so this large see get form also all those course to work during about he plan still so like down he look down where course at who plan way so since come against he all who at world because while so few last these mean take house who old way large no first too now off would in this course present order home public school back own little about he develop of do over help day house stand present another by few come that down last or use say take would each even govern play around back under some line think she even when from do real problem between long as there school do as mean to all on other good may from might call world thing life turn of he look last problem after get show want need thing old other during be again develop come from consider the now number say life interest to system only group world same state school one problem between for turn run at very against eye must go both still all a as so after play eye little be those should out after which these both much house become both school this he real and may mean time by real number other as feel at end ask plan come turn by all head increase he present increase use stand after see order lead than system here ask in of look point little too without each for both but right we come world much own set we right off long those stand go both but under now must real general then before with much those at no of we only back these person plan from run new as own take early just increase only look open follow get that on system the mean plan man over it possible if most late line would first without real hand say turn point small set at in system however to be home show new again come under because about show face child know person large program how over could thing from out world while nation stand part run have look what many system order some one program you great could write day do he any also where child late face eye run still again on by as call high the must by late little mean never another seem to leave because for day against public long number word about after much need open change also'.split(' ');
 window.ru_words = 'в одном хорошем реальном не школьном наборе они заявляют что высокая жизнь рассматривает и не приходит что также для установки точки может хотеть как в то время как с порядка ребенка о школе вещь никогда не держать найти порядок каждый тоже между программой работа конец вы дом место вокруг в то время как место проблема конец начать интерес в то время как публика или где видеть время те увеличить интерес быть дать конец думать казаться маленьким как и другой ребенок тот же глаз вы между путь делать кто в снова хороший факт чем под очень голова стать реальным возможным некоторые писать знать однако поздно каждый что с потому что что место нация только для каждого изменить форма рассмотреть мы бы интерес с миром так заказать или запустить больше открыть что большой писать повернуть никогда не над открыть каждый над изменить все еще старый взять держать нужно дать по рассмотреть линия только оставить в то время как что установить номер часть форма хотите против большой проблема может потому что голова так первый это здесь бы конечно стать помощь год первый конец хотите оба факт публика длинное слово вниз также долго для без новый повернуть против потому что писать казаться линия интерес звонить не если линия вещь что работа люди путь может старый рассмотреть оставить держать хочу жизнь между большинство место может если идти кто нужен факт такой программа где который конец от ребенка вниз изменить на от людей высокий во время люди найти к однако в маленький новый общий это сделать что мог старый для последнего получить другая рука много глаз большой нет работа и с но хороший там последний думаю может вокруг использовать как число никогда так как мир нужно что мы вокруг часть показать новый прийти кажется в то время как некоторые и так как все еще маленький эти вы общие которые кажутся разместят приходят заказ форма как насчет просто также они с состояние поздно использовать оба рано слишком вести общие кажутся там точка взять общие кажутся несколько из как может под если спросить в то время как такой интерес чувствовать слово правильно снова как насчет системы такой между поздно хотят факт вверх проблема стоять новый сказать переместить вести небольшой однако большой общественный из глаз здесь над так быть способ использовать как сказать люди работают для так как интерес так лицо заказ школа хороший не большинство запустить проблема группа запустить она поздно другой проблема реальный форма что просто высокий нет человек делать под бы к каждому слишком конец точка дать число ребенок через так этот большой видеть получить форму также все те курс работать во время около он план все еще так как вниз он смотрит вниз где курс в кто план путь так так как прийти против он все кто в мире потому что пока так мало последний эти означают взять дом кто старый путь большой нет первый тоже теперь выкл бы в этом курсе настоящий заказ домой государственная школа обратно собственный немного о он развиться сделать над помощью день дом стоять настоящий другой по несколько прийти что вниз последний или использовать сказать взять бы каждый даже управлять играть вокруг назад под какой-то линией думать она даже когда от делать реальная проблема между долго как там школа делать как значить для всех на других хорошо может от может называть мир вещь жизнь поворот он смотреть последний проблема после получить показать хотят нуждаться вещь старый другой во время быть снова развиваться прийти из рассмотреть сейчас число сказать жизнь интерес к системе только группа мир тот же штат школа одна проблема между для поворот запустить на очень против глаз должен идти оба все еще все как так после играть глаз немного быть те должны из после чего эти оба много дом стать оба школа это он реальный и может означать время реальным числом другой как чувствовать в конце спросить план прийти поворот по всем голова увеличить он присутствует увеличить использовать стоять после видеть заказ вести чем система здесь спросить в из смотреть точка мало тоже без каждого для обоих но правильно мы приходим мир много собственный набор мы сразу долго те стоят идти оба но под сейчас должен реальный общий тогда перед с много те в нет из мы только назад эти человек план из запустить новый как собственный взять рано просто увеличить только посмотреть открыть следовать получить что на системе средний план человек над это возможно если большинство поздно линия сначала без реальной руки сказать поворот точка небольшой установить в в система однако быть дома показать новый снова прийти под потому что о показать лицо ребенок знать человек большой программа как над мог вещь из нашего мира в то время как нация стоит часть беги иметь посмотри что многие система заказ одна программа ты великий мог написать день сделать он любой также где ребенок поздно лицо глаз беги еще снова на как зови высокий должен поздно немного значит никогда другой кажется оставить потому что для день против публичный длинное число слово о после много нужно открыть изменить также'.split(' ');
 window.ukr_words = 'в одному хорошому справжньому не шкільному наборі вони заявляють про високе життя розглядають і не приходять що також для заданої точки можуть захотіти як у той час як із порядком дитиною про школу ніколи не дотримуйтеся порядку кожен також між програмою роботою кінцем домом місцем навколо поки місцем проблема кінець почати цікавитися в той час як громадськість або де бачити час ті збільшують інтерес бути давати кінець думати здаватись маленьким як обидва інші дитина те саме око ти між способом робити хто в знову хороший факт ніж під самою головою стати реальним можливо деякі пишуть знають однак пізно кожен що з тому що це місце нації лише для кожної форми зміни яку ми б зацікавили світ тож порядок або запуск більш відкритий що великий написати ніколи не перевертати відкривати змінювати все ще старий закріплюватися потрібно дати розглянути рядок лише залишити поки що налаштувати число частина форма хочу проти великої проблеми може тому що голова так що спочатку це тут курс стане допомогою рік перший кінець хочу обидва факт публічне довге слово вниз також хочу без нового повернути проти тому що написати здається рядок інтерес зателефонувати не якщо рядок річ що робота люди шлях може старий розглянути залишити утримувати хочуть життя між більшістю місце може якщо піти кому потрібен факт така програма де який кінець від дитини вниз змінюється на від людей високих під час людей знаходять однак в невеликий новий загальний це зробити це міг би старий нарешті отримати іншу руку багато очей чудово не працює і з але добре там останній думати може навколо використовувати як номер ніколи з тих пір як світ потребує того що ми навколо частина показуємо новий приходьте здається поки деякі і оскільки все ще малі ці ви загальні які здається відбудуться прийдуть накажуть як щодо просто також вони зі станом пізно використовують обидва рано занадто ведуть загальні здається є сенс беруть загальні здаються небагато як можливо під якщо запитати поки такий інтерес відчувати слово знову як щодо системи таке між пізно хочу факт вгору проблема стояти новий скажімо рухатися вперед невелика але велика публіка на око сюди отже використовуйте наприклад скажімо люди працюють оскільки інтерес так дивіться порядок школа добре не більшість біжить проблема група біжить вона спізнюється інша проблема справжня форма що просто високо ніхто не робить під щоб кожен також мав кінцеву точку дав номер дитині через так що цей великий дивіться отримати форму також усі ті звичайно щоб працювати під час про він планує все ще так як вниз він дивиться вниз де курс на хто планує шлях тому що виступають проти нього всі хто у світі тому що поки так мало триває ці підлі взяти будинок хто старий спосіб великий не перший теж зараз би в цьому курсі представити порядок домашньої державної школи назад власний небагато про він розвивати робити над допомога день будинок стояти присутні інший за кілька прийти що вниз останнім або використовувати сказати взяти б кожен навіть керувати грати назад під деякою лінією думати вона навіть коли від робити справжню проблему між поки є школа робити як злий все на іншому добре може від може називати світ річ життя поворот він дивитися остання проблема після отримати показати хочу потреба річ старе інше під час бути знову розвиватися прийти з розглянути зараз число сказати життя інтерес до системи лише група світ та сама державна школа одна проблема між для біг на повороті дуже проти ока повинен йти як і раніше так як після гри око мало бути тими які повинні вийти після чого ці обидва багато будинок стати обома школою це він справжній і може означати час дійсним числом інший як відчуття в кінці запитати план прийти до всіх голова збільшити він присутній збільшити використання стояти після дивитися порядок вести ніж система тут запитати дивитися трохи занадто без кожного для обох але правильно ми приходимо світ багато власний набір ми відразу довгі ті стоять ідуть обидва але під зараз повинен справжній загальний тоді раніше з багатьма тими без ми тільки підтримуємо ці люди планують від запуску новий як власний взяти рано просто збільшити тільки дивитися відкрито слідувати отримати це в системі підлий план людина над ним можливо якщо найбільш пізня лінія спочатку без справжньої руки скаже поворотний момент малий встановлений у системі однак бути вдома показати новий знову прийти під тому що приблизно показати обличчя дитина знати людину велика програма як можна щось із іншого світу поки нація стояти частково бігати дивитися скільки система замовляє якусь одну програму яку ти чудово міг би написати день чи він будь-який також де дитина пізно обличчя очі знову бігають на як виклик високий пізно мало означає ніколи інший здається залишити тому що протягом дня проти публічного довгого номера слово про після також потрібно відкрити зміни'.split(' ');
@@ -9,6 +11,8 @@ window.timer = null
 window.gameStart = null
 let focusTimer = null;
 let idleBlinkTimer = null;
+let language = "eng_words"
+let time = 30
 
 document.getElementById("game").addEventListener("focusout", () => {
   if (focusTimer) {
@@ -48,6 +52,8 @@ document.querySelectorAll('input[name="language"]').forEach(radio => {
   radio.addEventListener('change', (e) => {
     const gameElement = document.getElementById("game");
 
+    language = null
+
     if (gameElement.classList.contains("over")) {
       e.target.checked = false;
 
@@ -70,6 +76,9 @@ document.querySelectorAll('input[name="language"]').forEach(radio => {
       words = window[e.target.value];
       if (!words) return;
       wordsCount = words.length;
+
+      language = e.target.value
+      console.log(language)
 
       newGame();
 
@@ -99,7 +108,14 @@ function formatWord(word) {
 
 document.querySelectorAll('input[name="time"]').forEach(radio => {
   radio.addEventListener('change', (e) => {
+
+    time = null
+
     gameTime = parseInt(e.target.value);
+
+    time = gameTime / 1000
+    console.log(time)
+
     document.getElementById("timer").innerHTML = (gameTime / 1000) + '';
     document.getElementById("custom-time").value = '';
 
@@ -186,6 +202,51 @@ function getWpm() {
   }
 }
 
+async function updateBestScore(score, language, time) {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/update_best_score', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        score: score,
+        language: language,
+        time: time
+      })
+    });
+
+    const bestResContainer = document.getElementById("best-score")
+    bestResContainer.classList.remove('login-error')
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        const errorMessage = await response.text()
+        bestResContainer.textContent = errorMessage;
+        bestResContainer.classList.add('login-error')
+        throw new Error(errorMessage);
+      }
+      throw new Error(`Ошибка сервера: ${response.status} ${response.detail}`);
+    }
+
+
+    const data = await response.json();
+    console.log("Ответ сервера:", data);
+
+    if (data.better === true) {
+      bestResContainer.textContent = data.best_score;
+      showNotification(data.message, "success")
+    } else {
+      bestResContainer.textContent = data.best_score;
+    }
+
+  } catch (error) {
+    console.error("Ошибка при запросе:", error);
+  }
+}
+
+
 function gameOver() {
   document.getElementById("timer").style.opacity = "0";
   document.getElementById("timer").style.visibility = "hidden";
@@ -216,6 +277,11 @@ function gameOver() {
   document.querySelector('.result-section').style.opacity = "1";
 
   prevRes = result.wpm;
+
+  updateBestScore(result.wpm, language, time)
+
+  console.log(time)
+  console.log(language)
 }
 
 function restGameUI() {
@@ -275,17 +341,14 @@ document.getElementById("game").addEventListener('keydown', e => {
   const isBackspace = e.key === 'Backspace';
 
   if (!window.timer && (isSpace || isBackspace)) {
-    // Если игра ещё не началась, запрещаем действия для Space и Backspace
     e.preventDefault();
     console.log('Игнор: Space или Backspace до начала игры');
     return;
   }
 
-  // Проверяем системные клавиши
   if ((e.ctrlKey && isBackspace) || isBackspace) {
     // Для Backspace (с Ctrl или без) ничего не запрещаем
   } else if (e.altKey || e.metaKey || !allowKeys.test(e.key)) {
-    // Блокируем все остальные некорректные клавиши
     e.preventDefault();
     return;
   }
@@ -319,7 +382,7 @@ document.getElementById("game").addEventListener('keydown', e => {
     return;
   }
 
-  console.log({key, expected})
+  // console.log({key, expected})
 
   if (!window.timer && isLetter) {
     window.gameStart = (new Date()).getTime()
@@ -505,7 +568,7 @@ document.getElementById("game").addEventListener('keydown', e => {
   if (nextLetter || nextWord) {
     const rect = (nextLetter || nextWord).getBoundingClientRect()
     cursor.style.top = rect.top + (rect.height / 2) - (cursor.offsetHeight / 2) + 'px'
-    console.log(rect.top + (rect.height / 2) - (cursor.offsetHeight / 2) + 'px')
+    // console.log(rect.top + (rect.height / 2) - (cursor.offsetHeight / 2) + 'px')
     cursor.style.left = (nextLetter ? rect.left : rect.right) - 1 + "px"
   }
 })
@@ -515,4 +578,6 @@ document.getElementById('restart-btn').addEventListener('click', () => {
   newGame()
 })
 
+
+console.log(language)
 newGame();

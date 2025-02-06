@@ -1,13 +1,10 @@
-from datetime import timedelta, datetime
-
+from datetime import timedelta
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, HTTPException, Response, Depends, Request, status, Header
-from jose import jwt
+from fastapi import FastAPI, HTTPException, Response, Request, status
 from pydantic import BaseModel, EmailStr
 import psycopg2
 from authx import AuthX, AuthXConfig
 from passlib.context import CryptContext
-from typing import Optional
 
 app = FastAPI()
 
@@ -51,6 +48,12 @@ class RegisterUserSchema(BaseModel):
 class LoginUserSchema(BaseModel):
   email: EmailStr
   password: str
+
+
+class ScoreUpdateSchema(BaseModel):
+  score: int
+  language: str
+  time: int
 
 
 def hash_password(password: str) -> str:
@@ -158,7 +161,59 @@ def protected(request: Request):
   finally:
     connection.close()
 
+
 @app.post("/logout")
 def logout(response: Response):
   response.delete_cookie(config.JWT_ACCESS_COOKIE_NAME, path="/")
   return {"message": "User successfully logged out"}
+
+
+import json
+
+import json
+
+@app.post("/update_best_score")
+def update_best_score(score_data: ScoreUpdateSchema, request: Request):
+  token = request.cookies.get(config.JWT_ACCESS_COOKIE_NAME)
+
+  if not token:
+    return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Login to \n access")
+
+  try:
+    decoded_token = security._decode_token(token)
+    user_id = decoded_token.sub
+
+    column_name = f"best_{score_data.language}_{score_data.time}"
+
+    connection = get_db_connection()
+    with connection.cursor() as cursor:
+      cursor.execute(
+        "SELECT column_name FROM information_schema.columns WHERE table_name = 'users' AND column_name = %s",
+        (column_name,)
+      )
+      column_exists = cursor.fetchone()
+
+      if not column_exists:
+        return Response(status_code=400, content=f"Column '{column_name}' not found in database")
+
+      cursor.execute(f"SELECT {column_name} FROM public.users WHERE id = %s", (user_id,))
+      best_score = cursor.fetchone()
+      best_score = best_score[0] if best_score and best_score[0] is not None else 0
+
+      if score_data.score > best_score:
+        cursor.execute(f"UPDATE public.users SET {column_name} = %s WHERE id = %s", (score_data.score, user_id))
+        connection.commit()
+        best_score = score_data.score
+        response_data = {"better": True, "best_score": best_score, "message": "Congratulation with new record!"}
+      else:
+        response_data = {"better": False, "best_score": best_score}
+
+      return Response(content=json.dumps(response_data), media_type="application/json")
+
+  except Exception as e:
+    return Response(status_code=500, content=f"Server error: {str(e)}")
+
+  finally:
+    connection.close()
+
+

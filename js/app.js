@@ -1,3 +1,5 @@
+import { showNotification } from "./notifications.js";
+
 const container = document.getElementById("container");
 const registerBtn = document.getElementById("register");
 const loginBtn = document.getElementById("login");
@@ -12,7 +14,7 @@ loginBtn.addEventListener("click", () => {
 
 document.querySelectorAll(".input-container .toggle-password").forEach(toggle => {
   toggle.addEventListener("click", function () {
-    const passwordField = this.previousElementSibling; 
+    const passwordField = this.previousElementSibling;
 
     const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
     passwordField.setAttribute("type", type);
@@ -22,23 +24,6 @@ document.querySelectorAll(".input-container .toggle-password").forEach(toggle =>
   });
 });
 
-function showNotification(message, type="success") {
-  const notification = document.getElementById("notification");
-  notification.textContent = message;
-  notification.className = `notification ${type} visible`
-
-  notification.style.right = `-${notification.offsetWidth}px`
-  setTimeout(() => {
-    notification.style.right = `20px`
-  }, 100)
-
-  setTimeout(() => {
-    notification.style.right = `-${notification.offsetWidth}px`
-    setTimeout(() => {
-      notification.styleName = `notification hidden`
-    }, 300)
-  }, 3000)
-}
 
 document.getElementById("sign-in-form").addEventListener("submit", async function (e) {
   e.preventDefault();
