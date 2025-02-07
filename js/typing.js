@@ -391,7 +391,7 @@ async function update_started_tests() {
   }
 }
 
-document.getElementById("game").addEventListener('keydown', async e => {
+document.getElementById("game").addEventListener('keydown', e => {
   if (document.getElementById("game").classList.contains('over')) {
     return;
   }
@@ -453,17 +453,17 @@ document.getElementById("game").addEventListener('keydown', async e => {
       const sPassed = Math.round(msPassed / 1000);
       const sLeft = (gameTime / 1000) - sPassed;
       if (sLeft <= 0) {
-        gameOver();
+        gameOver().catch(err => {
+          console.error("Error updating started tests:", err);
+        });
         return;
       }
       document.getElementById("timer").innerHTML = sLeft + '';
     }, 1000);
 
-    try {
-      await update_started_tests();
-    } catch (err) {
+    update_started_tests().catch(err => {
       console.error("Error updating started tests:", err);
-    }
+    });
   }
 
   if (isLetter) {

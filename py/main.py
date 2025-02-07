@@ -236,7 +236,7 @@ def update_started_tests(request: Request):
       else:
         amount_started_tests = result[0] + 1
 
-      print(f"User ID: {user_id}, Current started_tests: {result}, New Value: {amount_started_tests}")
+      # print(f"User ID: {user_id}, Current started_tests: {result}, New Value: {amount_started_tests}")
 
       cursor.execute("UPDATE public.users SET started_tests = %s WHERE id = %s", (amount_started_tests, user_id))
       connection.commit()
@@ -276,7 +276,7 @@ def update_completed_tests(request: Request):
       else:
         amount_completed_tests = result[0] + 1
 
-      print(f"User ID: {user_id}, Current completed_tests: {result}, New Value: {amount_completed_tests}")
+      # print(f"User ID: {user_id}, Current completed_tests: {result}, New Value: {amount_completed_tests}")
 
       cursor.execute("UPDATE public.users SET completed_tests = %s WHERE id = %s", (amount_completed_tests, user_id))
       connection.commit()
