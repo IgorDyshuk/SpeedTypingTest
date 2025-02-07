@@ -222,6 +222,7 @@ async function updateBestScore(score, language, time) {
     });
 
     const bestResContainer = document.getElementById("best-score")
+    bestResContainer.textContent = ''
     bestResContainer.classList.remove('login-error')
 
     if (!response.ok) {
