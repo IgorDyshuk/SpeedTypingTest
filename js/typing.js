@@ -161,6 +161,10 @@ document.addEventListener('click', (e) => {
     let customTime = document.getElementById("entered-time")
 
     if (customInput.value.trim() !== '') {
+
+      time = parseInt(customInput.value.trim())
+      console.log(time)
+
       customTime.innerHTML = (gameTime / 1000) + '';
       customTime.style.width = '100%';
       customTime.style.marginRight = '9px';
@@ -225,6 +229,12 @@ async function updateBestScore(score, language, time) {
         const errorMessage = await response.text()
         bestResContainer.textContent = errorMessage;
         bestResContainer.classList.add('login-error')
+
+        document.querySelector('.nav-bar .profile').classList.add('animate__animated', 'animate__flash', 'animate__repeat-2')
+        setTimeout(() => {
+          document.querySelector('.nav-bar .profile').classList.remove('animate__animated', 'animate__flash', 'animate__repeat-2')
+        }, 3000)
+
         throw new Error(errorMessage);
       }
       throw new Error(`Ошибка сервера: ${response.status} ${response.detail}`);
@@ -578,6 +588,6 @@ document.getElementById('restart-btn').addEventListener('click', () => {
   newGame()
 })
 
-
+console.log(time)
 console.log(language)
 newGame();
