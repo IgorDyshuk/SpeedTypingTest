@@ -243,7 +243,7 @@ async function updateBestScore(score, language, time) {
 
 
     const data = await response.json();
-    console.log("Ответ сервера:", data);
+    console.log(`Server response (${language}, ${time}):`, data);
 
     if (data.better === true) {
       bestResContainer.textContent = data.best_score;
@@ -257,8 +257,29 @@ async function updateBestScore(score, language, time) {
   }
 }
 
+async function update_completed_tests() {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/update_completed_tests', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+    })
 
-function gameOver() {
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.detail);
+    }
+
+    const data = await response.json();
+    console.log(data)
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function gameOver() {
   document.getElementById("timer").style.opacity = "0";
   document.getElementById("timer").style.visibility = "hidden";
 
@@ -289,10 +310,17 @@ function gameOver() {
 
   prevRes = result.wpm;
 
-  updateBestScore(result.wpm, language, time)
+  try {
+    await updateBestScore(result.wpm, language, time);
+  } catch (err) {
+    console.error("Error updating best score:", err);
+  }
 
-  console.log(time)
-  console.log(language)
+  try {
+    await update_completed_tests();
+  } catch (err) {
+    console.error("Error updating completed tests:", err);
+  }
 }
 
 function restGameUI() {
@@ -433,9 +461,8 @@ document.getElementById("game").addEventListener('keydown', async e => {
 
     try {
       await update_started_tests();
-      console.log("✅ Успешно отправлено: Начат новый тест");
     } catch (err) {
-      console.error("❌ Ошибка при обновлении начатых тестов:", err);
+      console.error("Error updating started tests:", err);
     }
   }
 
@@ -616,6 +643,4 @@ document.getElementById('restart-btn').addEventListener('click', () => {
   newGame()
 })
 
-console.log(time)
-console.log(language)
 newGame();

@@ -252,3 +252,43 @@ def update_started_tests(request: Request):
   finally:
     if connection:
       connection.close()
+
+
+@app.post("/update_completed_tests")
+def update_completed_tests(request: Request):
+  token = request.cookies.get(config.JWT_ACCESS_COOKIE_NAME)
+
+  if not token:
+    return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Login to access")
+
+  connection = None
+  try:
+    connection = get_db_connection()
+    decoded_token = security._decode_token(token)
+    user_id = decoded_token.sub
+
+    with connection.cursor() as cursor:
+      cursor.execute("SELECT completed_tests FROM public.users WHERE id = %s FOR UPDATE", (user_id,))
+      result = cursor.fetchone()
+
+      if result is None or result[0] is None:
+        amount_completed_tests = 1
+      else:
+        amount_completed_tests = result[0] + 1
+
+      print(f"User ID: {user_id}, Current completed_tests: {result}, New Value: {amount_completed_tests}")
+
+      cursor.execute("UPDATE public.users SET completed_tests = %s WHERE id = %s", (amount_completed_tests, user_id))
+      connection.commit()
+
+      return Response(content=json.dumps({"amount_completed_tests": amount_completed_tests}), media_type="application/json")
+
+  except psycopg2.Error as db_error:
+    return Response(status_code=500, content=f"Database error: {str(db_error)}")
+
+  except Exception as e:
+    return Response(status_code=500, content=f"Server error: {str(e)}")
+
+  finally:
+    if connection:
+      connection.close()
