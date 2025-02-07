@@ -5,6 +5,7 @@ from pydantic import BaseModel, EmailStr
 import psycopg2
 from authx import AuthX, AuthXConfig
 from passlib.context import CryptContext
+import json
 
 app = FastAPI()
 
@@ -168,10 +169,6 @@ def logout(response: Response):
   return {"message": "User successfully logged out"}
 
 
-import json
-
-import json
-
 @app.post("/update_best_score")
 def update_best_score(score_data: ScoreUpdateSchema, request: Request):
   token = request.cookies.get(config.JWT_ACCESS_COOKIE_NAME)
@@ -217,3 +214,41 @@ def update_best_score(score_data: ScoreUpdateSchema, request: Request):
     connection.close()
 
 
+@app.post("/update_started_tests")
+def update_started_tests(request: Request):
+  token = request.cookies.get(config.JWT_ACCESS_COOKIE_NAME)
+
+  if not token:
+    return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Login to access")
+
+  connection = None
+  try:
+    connection = get_db_connection()
+    decoded_token = security._decode_token(token)
+    user_id = decoded_token.sub
+
+    with connection.cursor() as cursor:
+      cursor.execute("SELECT started_tests FROM public.users WHERE id = %s FOR UPDATE", (user_id,))
+      result = cursor.fetchone()
+
+      if result is None or result[0] is None:
+        amount_started_tests = 1
+      else:
+        amount_started_tests = result[0] + 1
+
+      print(f"User ID: {user_id}, Current started_tests: {result}, New Value: {amount_started_tests}")
+
+      cursor.execute("UPDATE public.users SET started_tests = %s WHERE id = %s", (amount_started_tests, user_id))
+      connection.commit()
+
+      return Response(content=json.dumps({"amount_started_tests": amount_started_tests}), media_type="application/json")
+
+  except psycopg2.Error as db_error:
+    return Response(status_code=500, content=f"Database error: {str(db_error)}")
+
+  except Exception as e:
+    return Response(status_code=500, content=f"Server error: {str(e)}")
+
+  finally:
+    if connection:
+      connection.close()

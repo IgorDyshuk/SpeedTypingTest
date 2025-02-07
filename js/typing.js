@@ -341,8 +341,29 @@ window.addEventListener('load', () => {
   }
 })
 
+async function update_started_tests() {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/update_started_tests', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+    })
 
-document.getElementById("game").addEventListener('keydown', e => {
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.detail);
+    }
+
+    const data = await response.json();
+    console.log(data)
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+document.getElementById("game").addEventListener('keydown', async e => {
   if (document.getElementById("game").classList.contains('over')) {
     return;
   }
@@ -358,7 +379,6 @@ document.getElementById("game").addEventListener('keydown', e => {
   }
 
   if ((e.ctrlKey && isBackspace) || isBackspace) {
-    // Для Backspace (с Ctrl или без) ничего не запрещаем
   } else if (e.altKey || e.metaKey || !allowKeys.test(e.key)) {
     e.preventDefault();
     return;
@@ -396,20 +416,27 @@ document.getElementById("game").addEventListener('keydown', e => {
   // console.log({key, expected})
 
   if (!window.timer && isLetter) {
-    window.gameStart = (new Date()).getTime()
-    document.getElementById("timer").innerHTML = (gameTime / 1000) + ''
+    window.gameStart = (new Date()).getTime();
+    document.getElementById("timer").innerHTML = (gameTime / 1000) + '';
 
     window.timer = setInterval(() => {
-      const currentTime = (new Date()).getTime()
-      const msPassed = currentTime - window.gameStart
-      const sPassed = Math.round(msPassed / 1000)
-      const sLeft = (gameTime / 1000) - sPassed
+      const currentTime = (new Date()).getTime();
+      const msPassed = currentTime - window.gameStart;
+      const sPassed = Math.round(msPassed / 1000);
+      const sLeft = (gameTime / 1000) - sPassed;
       if (sLeft <= 0) {
-        gameOver()
-        return
+        gameOver();
+        return;
       }
-      document.getElementById("timer").innerHTML = sLeft + ''
-    }, 1000)
+      document.getElementById("timer").innerHTML = sLeft + '';
+    }, 1000);
+
+    try {
+      await update_started_tests();
+      console.log("✅ Успешно отправлено: Начат новый тест");
+    } catch (err) {
+      console.error("❌ Ошибка при обновлении начатых тестов:", err);
+    }
   }
 
   if (isLetter) {

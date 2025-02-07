@@ -14,5 +14,5 @@ export function showNotification(message, type="success") {
     setTimeout(() => {
       notification.className = `notification hidden`;
     }, 300);
-  }, 3000);
+  }, 4000);
 }
