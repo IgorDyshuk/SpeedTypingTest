@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime, timezone
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, Response, Request, status
 from pydantic import BaseModel, EmailStr
@@ -76,9 +76,11 @@ def register_user(user: RegisterUserSchema, response: Response):
 
       hashed_password = hash_password(user.password)
 
+      date = datetime.now(timezone.utc).date()
+
       cursor.execute(
-        "INSERT INTO public.users (name, email, password) VALUES (%s, %s, %s) RETURNING id",
-        (user.username, user.email, hashed_password)
+        "INSERT INTO public.users (name, email, password, registration_date) VALUES (%s, %s, %s, %s) RETURNING id",
+        (user.username, user.email, hashed_password, date)
       )
       user_id = cursor.fetchone()[0]
       connection.commit()
