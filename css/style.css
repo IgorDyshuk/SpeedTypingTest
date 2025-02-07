@@ -302,8 +302,27 @@ button:hover {
   transition: all 0.15s ease-in-out;
 }
 
-.nav-bar h2 {
-  color: var(--sub-color);
+.nav-bar a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--text-color);
+  transition: all 0.15s ease-in-out;
+}
+
+.nav-bar a img{
+  /*position: absolute;*/
+  margin-top: 1px;
+  height: 21px;
+  width: auto;
+}
+
+.nav-bar a:hover {
+  cursor: pointer;
 }
 
 
@@ -759,6 +778,8 @@ input[type="password"]::placeholder {
   visibility: visible;
   opacity: 1;
 }
+
+/*to here*/
 
 main {
   padding: 0 150px
