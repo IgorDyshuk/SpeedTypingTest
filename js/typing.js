@@ -206,7 +206,7 @@ function getWpm() {
   }
 }
 
-async function updateBestScore(score, language, time) {
+async function updateBestScore(score, accuracy, language, time) {
   try {
     const response = await fetch('http://127.0.0.1:8000/update_best_score', {
       method: 'POST',
@@ -216,6 +216,7 @@ async function updateBestScore(score, language, time) {
       credentials: 'include',
       body: JSON.stringify({
         score: score,
+        accuracy: accuracy,
         language: language,
         time: time
       })
@@ -311,7 +312,7 @@ async function gameOver() {
   prevRes = result.wpm;
 
   try {
-    await updateBestScore(result.wpm, language, time);
+    await updateBestScore(result.wpm, result.accuracy, language, time);
   } catch (err) {
     console.error("Error updating best score:", err);
   }
