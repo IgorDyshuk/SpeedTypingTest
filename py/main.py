@@ -51,10 +51,12 @@ class LoginUserSchema(BaseModel):
   password: str
 
 
-class ScoreUpdateSchema(BaseModel):
+class BestScoreUpdateSchema(BaseModel):
   score: int
+  accuracy: int
   language: str
   time: int
+
 
 
 def hash_password(password: str) -> str:
@@ -172,12 +174,13 @@ def logout(response: Response):
 
 
 @app.post("/update_best_score")
-def update_best_score(score_data: ScoreUpdateSchema, request: Request):
+def update_best_score(score_data: BestScoreUpdateSchema, request: Request):
   token = request.cookies.get(config.JWT_ACCESS_COOKIE_NAME)
 
   if not token:
     return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Login to \n access")
 
+  connection = None
   try:
     decoded_token = security._decode_token(token)
     user_id = decoded_token.sub
@@ -195,17 +198,26 @@ def update_best_score(score_data: ScoreUpdateSchema, request: Request):
       if not column_exists:
         return Response(status_code=400, content=f"Column '{column_name}' not found in database")
 
-      cursor.execute(f"SELECT {column_name} FROM public.users WHERE id = %s", (user_id,))
-      best_score = cursor.fetchone()
-      best_score = best_score[0] if best_score and best_score[0] is not None else 0
+      cursor.execute(f"SELECT COALESCE({column_name}, '{{}}'::jsonb) FROM public.users WHERE id = %s FOR UPDATE", (user_id,))
+      best_score_data = cursor.fetchone()
+      best_score_json = best_score_data[0] if best_score_data else {}
 
-      if score_data.score > best_score:
-        cursor.execute(f"UPDATE public.users SET {column_name} = %s WHERE id = %s", (score_data.score, user_id))
+      best_wpm = best_score_json.get("wpm", 0)
+
+      record_date = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+
+      if score_data.score > best_wpm:
+        new_best_score = {
+          "wpm": score_data.score,
+          "accuracy": score_data.accuracy,
+          "record_date": record_date
+        }
+        cursor.execute(f"UPDATE public.users SET {column_name} = %s WHERE id = %s", (json.dumps(new_best_score), user_id))
         connection.commit()
         best_score = score_data.score
         response_data = {"better": True, "best_score": best_score, "message": "Congratulation with new record!"}
       else:
-        response_data = {"better": False, "best_score": best_score}
+        response_data = {"better": False, "best_score": best_wpm}
 
       return Response(content=json.dumps(response_data), media_type="application/json")
 
@@ -213,7 +225,8 @@ def update_best_score(score_data: ScoreUpdateSchema, request: Request):
     return Response(status_code=500, content=f"Server error: {str(e)}")
 
   finally:
-    connection.close()
+    if connection:
+      connection.close()
 
 
 @app.post("/update_started_tests")
