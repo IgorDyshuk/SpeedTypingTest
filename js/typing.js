@@ -163,7 +163,7 @@ document.addEventListener('click', (e) => {
     if (customInput.value.trim() !== '') {
 
       time = parseInt(customInput.value.trim())
-      console.log(time)
+      // console.log(time)
 
       customTime.innerHTML = (gameTime / 1000) + '';
       customTime.style.width = '100%';
@@ -280,6 +280,26 @@ async function update_completed_tests() {
   }
 }
 
+async function update_typing_duration(typing_duration) {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/update_typing_duration', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        typing_duration: typing_duration
+      })
+    })
+
+    await response;
+    console.log(`Typing duration updated on ${typing_duration} seconds`)
+  } catch (error) {
+    console.error("Error at typing duration updating: ", error);
+  }
+}
+
 async function gameOver() {
   document.getElementById("timer").style.opacity = "0";
   document.getElementById("timer").style.visibility = "hidden";
@@ -311,22 +331,28 @@ async function gameOver() {
 
   prevRes = result.wpm;
 
-  try {
-    await updateBestScore(result.wpm, result.accuracy, language, time);
-  } catch (err) {
-    console.error("Error updating best score:", err);
+  updateBestScore(result.wpm, result.accuracy, language, time).catch(console.error);
+  update_completed_tests().catch(console.error);
+
+  if (window.gameStart) {
+    const typingDuration = Math.floor((Date.now() - window.gameStart) / 1000);
+    update_typing_duration(typingDuration).catch(console.error);
   }
 
-  try {
-    await update_completed_tests();
-  } catch (err) {
-    console.error("Error updating completed tests:", err);
-  }
+  window.gameStart = null;
 }
 
-function restGameUI() {
-  clearInterval(window.timer);
-  window.timer = null;
+async function restGameUI() {
+  if (window.gameStart) {
+    clearInterval(window.timer);
+    window.timer = null;
+
+    const typingDuration = Math.floor((Date.now() - window.gameStart) / 1000);
+    requestAnimationFrame(() => {
+      update_typing_duration(typingDuration);
+    });
+  }
+
   window.gameStart = null;
 
   document.getElementById("game").classList.remove("over");
@@ -362,6 +388,7 @@ function restGameUI() {
   document.getElementById("timer").style.visibility = "hidden";
   document.querySelector(".nav-bar").style.opacity = "1";
 }
+
 
 window.addEventListener('load', () => {
   const gameElement = document.getElementById("game")
@@ -563,7 +590,6 @@ document.getElementById("game").addEventListener('keydown', e => {
     if (currenLetter) {
       const letters = [...currentWord.children]
       const currentIndex = letters.indexOf(currenLetter)
-      console.log(currentIndex)
 
       for (let i = 0; i < currentIndex; i++) {
         if (letters[i]) {

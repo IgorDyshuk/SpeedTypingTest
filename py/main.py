@@ -58,6 +58,9 @@ class BestScoreUpdateSchema(BaseModel):
   time: int
 
 
+class TypingDurationSchema(BaseModel):
+  typing_duration: int
+
 
 def hash_password(password: str) -> str:
   return pwd_context.hash(password)
@@ -198,7 +201,8 @@ def update_best_score(score_data: BestScoreUpdateSchema, request: Request):
       if not column_exists:
         return Response(status_code=400, content=f"Column '{column_name}' not found in database")
 
-      cursor.execute(f"SELECT COALESCE({column_name}, '{{}}'::jsonb) FROM public.users WHERE id = %s FOR UPDATE", (user_id,))
+      cursor.execute(f"SELECT COALESCE({column_name}, '{{}}'::jsonb) FROM public.users WHERE id = %s FOR UPDATE",
+                     (user_id,))
       best_score_data = cursor.fetchone()
       best_score_json = best_score_data[0] if best_score_data else {}
 
@@ -212,7 +216,8 @@ def update_best_score(score_data: BestScoreUpdateSchema, request: Request):
           "accuracy": score_data.accuracy,
           "record_date": record_date
         }
-        cursor.execute(f"UPDATE public.users SET {column_name} = %s WHERE id = %s", (json.dumps(new_best_score), user_id))
+        cursor.execute(f"UPDATE public.users SET {column_name} = %s WHERE id = %s",
+                       (json.dumps(new_best_score), user_id))
         connection.commit()
         best_score = score_data.score
         response_data = {"better": True, "best_score": best_score, "message": "Congratulation with new record!"}
@@ -296,7 +301,44 @@ def update_completed_tests(request: Request):
       cursor.execute("UPDATE public.users SET completed_tests = %s WHERE id = %s", (amount_completed_tests, user_id))
       connection.commit()
 
-      return Response(content=json.dumps({"amount_completed_tests": amount_completed_tests}), media_type="application/json")
+      return Response(content=json.dumps({"amount_completed_tests": amount_completed_tests}),
+                      media_type="application/json")
+
+  except psycopg2.Error as db_error:
+    return Response(status_code=500, content=f"Database error: {str(db_error)}")
+
+  except Exception as e:
+    return Response(status_code=500, content=f"Server error: {str(e)}")
+
+  finally:
+    if connection:
+      connection.close()
+
+
+@app.post("/update_typing_duration")
+def update_typing_duration(typing_duration_data: TypingDurationSchema, request: Request):
+  token = request.cookies.get(config.JWT_ACCESS_COOKIE_NAME)
+
+  if not token:
+    return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Login to access")
+
+  connection = None
+  try:
+    connection = get_db_connection()
+    decoded_token = security._decode_token(token)
+    user_id = decoded_token.sub
+
+    with connection.cursor() as cursor:
+      cursor.execute("SELECT typing_duration FROM public.users WHERE id = %s FOR UPDATE", (user_id,))
+      result = cursor.fetchone()
+      current_typing_duration = result[0] if result and result[0] is not None else 0
+
+      new_typing_duration = current_typing_duration + typing_duration_data.typing_duration
+      cursor.execute("UPDATE public.users SET typing_duration = %s WHERE id = %s", (new_typing_duration, user_id))
+      connection.commit()
+
+      return Response(content=json.dumps({"new_typing_duration": new_typing_duration}),
+                      media_type="application/json")
 
   except psycopg2.Error as db_error:
     return Response(status_code=500, content=f"Database error: {str(db_error)}")
