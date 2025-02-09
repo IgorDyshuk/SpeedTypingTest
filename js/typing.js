@@ -13,6 +13,7 @@ let focusTimer = null;
 let idleBlinkTimer = null;
 let language = "eng_words"
 let time = 30
+let customTimeConfirmed = false;
 
 document.getElementById("game").addEventListener("focusout", () => {
   if (focusTimer) {
@@ -146,29 +147,29 @@ document.getElementById("custom-time").addEventListener('input', (e) => {
     gameTime = customTime;
     document.getElementById("timer").innerHTML = (gameTime / 1000) + '';
     document.querySelectorAll('input[name="time"]').forEach(radio => radio.checked = false);
+
+    customTimeConfirmed = true;
   } else {
     gameTime = 30000;
     document.getElementById("timer").innerHTML = (gameTime / 1000) + '';
-
   }
 });
 
 document.addEventListener('click', (e) => {
   const searchBox = document.querySelector('.search');
   const customInput = document.getElementById('custom-time');
-  if (!searchBox.contains(e.target)) {
+  if (!searchBox.contains(e.target) && customTimeConfirmed) {
     searchBox.classList.remove('open');
     let customTime = document.getElementById("entered-time")
 
-    if (customInput.value.trim() !== '') {
+    time = parseInt(customInput.value.trim())
+    console.log("Selected custom time: ", time)
 
-      time = parseInt(customInput.value.trim())
-      // console.log(time)
+    customTime.innerHTML = (gameTime / 1000) + '';
+    customTime.style.width = '100%';
+    customTime.style.marginRight = '9px';
 
-      customTime.innerHTML = (gameTime / 1000) + '';
-      customTime.style.width = '100%';
-      customTime.style.marginRight = '9px';
-    }
+    customTimeConfirmed = false;
   }
 });
 
