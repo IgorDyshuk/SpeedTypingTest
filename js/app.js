@@ -1,16 +1,5 @@
 import { showNotification } from "./notifications.js";
 
-const container = document.getElementById("container");
-const registerBtn = document.getElementById("register");
-const loginBtn = document.getElementById("login");
-
-registerBtn.addEventListener("click", () => {
-  container.classList.add("active");
-})
-
-loginBtn.addEventListener("click", () => {
-  container.classList.remove("active");
-})
 
 document.querySelectorAll(".input-container .toggle-password").forEach(toggle => {
   toggle.addEventListener("click", function () {
@@ -66,6 +55,8 @@ document.getElementById("sign-in-form").addEventListener("submit", async functio
     const profile_action = document.getElementById("log-text")
     profile_action.textContent = "Logout";
 
+    document.querySelector(".nav-bar .profile .profile-actions").classList.add("active")
+
   } catch (error) {
     showNotification(error.message, "error");
   }
@@ -110,8 +101,8 @@ document.getElementById("sign-up-form").addEventListener("submit", async functio
     const usernameDisplay = document.querySelector(".profile .username");
     usernameDisplay.textContent = data.username;
 
-    const profileAction = document.getElementById("log-text");
-    profileAction.textContent = "Logout";
+    document.querySelector(".nav-bar .profile .profile-actions").classList.add("active")
+
   } catch (error) {
     showNotification(error.message, "error");
   }
@@ -125,10 +116,14 @@ window.addEventListener("DOMContentLoaded", async () => {
       credentials: "include",
     });
 
-    const profile_action = document.getElementById("log-text")
-
     if (response.status === 204) {
-      profile_action.textContent = "Login";
+      const container = document.querySelector(".login-container");
+      const registerBtn = document.querySelector(".profile");
+
+      registerBtn.addEventListener("click", () => {
+        container.classList.add("open");
+      })
+      document.querySelector(".nav-bar .profile .profile-actions").classList.remove("active")
     } else if (response.ok) {
       const data = await response.json();
 
@@ -139,7 +134,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       const username = document.querySelector(".profile .username")
       username.textContent = data.username;
 
-      profile_action.textContent = "Logout";
+      document.querySelector(".nav-bar .profile .profile-actions").classList.add("active")
 
     } else {
       throw new Error(response.statusText);
@@ -151,14 +146,6 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 document.getElementById("logout").addEventListener("click", async () => {
   try {
-    const profile_action = document.getElementById("log-text")
-
-    if (profile_action.textContent === "Login") {
-      const container = document.querySelector(".login-container")
-      container.classList.add("open")
-      return
-    }
-
     const response = await fetch("http://127.0.0.1:8000/logout", {
       method: "POST",
       credentials: "include",
@@ -174,9 +161,10 @@ document.getElementById("logout").addEventListener("click", async () => {
       const username = document.querySelector(".profile .username")
       username.textContent = "";
 
-      profile_action.textContent = "Login";
-
       showNotification(data.message, "success");
+
+      document.querySelector(".nav-bar .profile .profile-actions").classList.remove("active")
+
     } else {
       throw new Error(response.statusText);
     }
@@ -190,6 +178,10 @@ document.querySelectorAll(".toggle-panel .fa-times").forEach(toggle => {
     const container = document.querySelector(".login-container")
     container.classList.remove("open")
   })
+})
+
+document.getElementById("statistic").addEventListener("click", () => {
+  window.location.href = "statistics.html"
 })
 
 

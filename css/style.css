@@ -458,6 +458,7 @@ input[type="number"] {
 }
 
 .nav-bar .profile .profile-actions {
+  display: none;
   visibility: hidden;
   opacity: 0;
   position: absolute;
@@ -471,6 +472,10 @@ input[type="number"] {
   font-size: 14px;
   overflow: hidden;
   transition: all 0.1s ease-in-out;
+}
+
+.nav-bar .profile .profile-actions.active{
+  display: block;
 }
 
 .nav-bar .profile .profile-actions li {
