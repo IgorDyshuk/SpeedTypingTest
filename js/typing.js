@@ -79,7 +79,7 @@ document.querySelectorAll('input[name="language"]').forEach(radio => {
       wordsCount = words.length;
 
       language = e.target.value
-      console.log(language)
+      console.log("Selected language:",language)
 
       newGame();
 
@@ -115,7 +115,7 @@ document.querySelectorAll('input[name="time"]').forEach(radio => {
     gameTime = parseInt(e.target.value);
 
     time = gameTime / 1000
-    console.log(time)
+    console.log("Selected time:",time)
 
     document.getElementById("timer").innerHTML = (gameTime / 1000) + '';
     document.getElementById("custom-time").value = '';
