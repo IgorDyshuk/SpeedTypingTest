@@ -1,4 +1,4 @@
-from datetime import timedelta, datetime, timezone
+from datetime import timedelta, datetime, timezone, date
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, HTTPException, Response, Request, status
 from pydantic import BaseModel, EmailStr
@@ -339,6 +339,55 @@ def update_typing_duration(typing_duration_data: TypingDurationSchema, request: 
 
       return Response(content=json.dumps({"new_typing_duration": new_typing_duration}),
                       media_type="application/json")
+
+  except psycopg2.Error as db_error:
+    return Response(status_code=500, content=f"Database error: {str(db_error)}")
+
+  except Exception as e:
+    return Response(status_code=500, content=f"Server error: {str(e)}")
+
+  finally:
+    if connection:
+      connection.close()
+
+
+
+@app.get("/get_profile_information")
+def get_profile_information(request: Request):
+  token = request.cookies.get(config.JWT_ACCESS_COOKIE_NAME)
+
+  if not token:
+    return Response(status_code=status.HTTP_401_UNAUTHORIZED, content="Login to access")
+
+  connection = None
+  try:
+    decoded_token = security._decode_token(token)
+    user_id = decoded_token.sub
+
+    connection = get_db_connection()
+    with connection.cursor() as cursor:
+      cursor.execute("SELECT * FROM public.users WHERE id = %s", (user_id,))
+      user_data = cursor.fetchone()
+
+      if not user_data:
+        return Response(status_code=404, content="User not found")
+
+      username = user_data[1]
+      registration_date = user_data[6]
+      started_tests = user_data[4]
+      completed_tests = user_data[5]
+      typing_duration = user_data[16]
+
+      if isinstance(registration_date, date):
+        registration_date = registration_date.strftime("%Y-%m-%d")
+
+      return Response(content=json.dumps({
+        "username": username,
+        "registration_date": registration_date,
+        "started_tests": started_tests,
+        "completed_tests": completed_tests,
+        "typing_duration": typing_duration
+      }), media_type="application/json")
 
   except psycopg2.Error as db_error:
     return Response(status_code=500, content=f"Database error: {str(db_error)}")
