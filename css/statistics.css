@@ -1,0 +1,80 @@
+:root {
+  --bgColor: #1f1d27;
+  --main-color: #9ccfd8;
+  --caret-color: #f6c177;
+  --sub-color: #c4a7e7;
+  --sub-alt-color: #282533;
+  --text-color: #e0def4;
+  --error-color: #eb6f92;
+  --error-extra-color: #ebbcba;
+}
+
+#profile-statistic {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  margin: 30px 150px;
+  padding: 16px;
+  border-radius: .5rem;
+  height: auto;
+  background-color: var(--sub-alt-color);
+}
+
+#profile-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+
+#profile-info #profile-avatar {
+  font-size: 77px;
+  color: var(--sub-color)
+}
+
+#profile-username-text {
+  font-size: 32px;
+  color: var(--text-color);
+  font-weight: 450;
+}
+
+#profile-username-date {
+  white-space: nowrap;
+  word-spacing: 3px;
+  font-weight: 450;
+  margin-top: .35rem;
+  color: var(--sub-color);
+  font-size: .7em;
+  line-height: .7rem;
+}
+
+#profile-statistic .spacer {
+  border-radius: 6px;
+  background-color: var(--bgColor);
+  padding: 6px 4px;
+}
+
+#profile-tests-info {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .5rem;
+  align-content: space-around;
+  align-self: center;
+  align-items: center;
+}
+
+.what-test {
+  font-weight: 400;
+  font-size: .8rem;
+  color: var(--sub-color);
+}
+
+.test-num {
+  font-weight: 550;
+  font-size: 2rem;
+  line-height: 2rem;
+
+}
