@@ -13,6 +13,10 @@ document.querySelectorAll(".input-container .toggle-password").forEach(toggle =>
   });
 });
 
+document.getElementById("login-form").addEventListener("click", () => {
+  const container = document.querySelector(".login-container");
+  container.classList.add("open");
+});
 
 document.getElementById("sign-in-form").addEventListener("submit", async function (e) {
   e.preventDefault();
@@ -117,12 +121,12 @@ window.addEventListener("DOMContentLoaded", async () => {
     });
 
     if (response.status === 204) {
-      const container = document.querySelector(".login-container");
-      const registerBtn = document.querySelector(".profile");
-
-      registerBtn.addEventListener("click", () => {
-        container.classList.add("open");
-      })
+      // const container = document.querySelector(".login-container");
+      // const registerBtn = document.querySelector(".profile");
+      //
+      // registerBtn.addEventListener("click", () => {
+      //   container.classList.add("open");
+      // })
       document.querySelector(".nav-bar .profile .profile-actions").classList.remove("active")
     } else if (response.ok) {
       const data = await response.json();
