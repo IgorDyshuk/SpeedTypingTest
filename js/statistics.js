@@ -6,15 +6,67 @@ function formatSeondsToHMS(seconds) {
   return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 }
 
+
 function formatDate(date) {
   const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
   const [year, month, day] = date.split("-");
 
   return `${parseInt(day)} ${monthNames[parseInt(month) - 1]} ${year}`
 }
 
-window.addEventListener("DOMContentLoaded", async () => {
+
+function formatDateTime(datetime) {
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  const [datePart, timePart] = datetime.split(" ")
+  const [year, month, day] = datePart.split("-");
+
+  return `${parseInt(day)} ${monthNames[parseInt(month) - 1]} ${year} at ${timePart}`
+}
+
+function updateBestScoreUI(data, time) {
+  document.getElementById(`score-${time}`).textContent = data.wpm || `N/A`
+  document.getElementById(`accuracy-${time}`).textContent = data.accuracy !== 'N/A' ? `${data.accuracy}%` : `N/A`
+  document.getElementById(`date-${time}`).textContent = data.record_date !== 'N/A' ? formatDateTime(data.record_date) : "N/A"
+}
+
+function updateBestScores(data) {
+  const selectedLang = document.querySelector('input[name="language"]:checked').value
+
+  let language = "English words"
+  let langKey = "eng_words"
+
+  switch (selectedLang) {
+    case "eng_words":
+      language = "English words"
+      langKey = "eng_words"
+      break;
+    case "ukr_words" :
+      language = "Ukrainian words"
+      langKey = "ukr_words"
+      break;
+    case "ru_words":
+      language = "Russian words"
+      langKey = "ru_words"
+      break;
+  }
+
+  document.getElementById("Selected_lang").textContent = language
+
+  const timeCategories = ['15', '30', '60']
+
+  timeCategories.forEach(time => {
+    const key = `${langKey}_${time}`
+    if (data.best_score[key]) {
+      updateBestScoreUI(data.best_score[key], `${time}sec`)
+    } else {
+      updateBestScoreUI({wpm: "N/A", accuracy: "N/A", record_date: "N/A"}, `${time}sec`)
+    }
+  })
+}
+
+
+async function fetchAndUpdate() {
   try {
     const response = await fetch("http://127.0.0.1:8000/get_profile_information", {
       method: "GET",
@@ -34,9 +86,18 @@ window.addEventListener("DOMContentLoaded", async () => {
       document.getElementById("completed-test").textContent = data.completed_tests;
       document.getElementById("typing-time").textContent = formatSeondsToHMS(data.typing_duration)
 
+      updateBestScores(data)
+
     } else {
-      throw new Error(response.statusText);}
+      throw new Error(response.statusText);
+    }
   } catch (error) {
     console.log(error.message, "error");
   }
-})
+}
+
+window.addEventListener("DOMContentLoaded", fetchAndUpdate)
+
+document.querySelectorAll("input[name='language']").forEach(lang => {
+  lang.addEventListener("change", fetchAndUpdate);
+});

@@ -386,7 +386,18 @@ def get_profile_information(request: Request):
         "registration_date": registration_date,
         "started_tests": started_tests,
         "completed_tests": completed_tests,
-        "typing_duration": typing_duration
+        "typing_duration": typing_duration,
+        "best_score" : {
+          "eng_words_15" : user_data[7],
+          "eng_words_30" : user_data[8],
+          "eng_words_60" : user_data[9],
+          "ukr_words_15" : user_data[10],
+          "ukr_words_30" : user_data[11],
+          "ukr_words_60" : user_data[12],
+          "ru_words_15" : user_data[13],
+          "ru_words_30" : user_data[14],
+          "ru_words_60" : user_data[15]
+        }
       }), media_type="application/json")
 
   except psycopg2.Error as db_error:
