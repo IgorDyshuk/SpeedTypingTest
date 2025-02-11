@@ -107,5 +107,18 @@ async function fetchAndUpdate() {
 window.addEventListener("DOMContentLoaded", fetchAndUpdate)
 
 document.querySelectorAll("input[name='language']").forEach(lang => {
-  lang.addEventListener("change", fetchAndUpdate);
+  lang.addEventListener("change", () => {
+    const container = document.querySelector(".bestScoresContainer");
+
+    container.classList.add("fade-out");
+
+    setTimeout(() => {
+      fetchAndUpdate().catch(error => console.log(error));
+    }, 100);
+
+    setTimeout(() => {
+      container.classList.remove("fade-out");
+    }, 250);
+  });
 });
+

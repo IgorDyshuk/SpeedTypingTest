@@ -87,6 +87,12 @@
   border-radius: .5rem;
   height: auto;
   background-color: var(--sub-alt-color);
+  opacity: 1;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.bestScoresContainer.fade-out {
+  opacity: 0;
 }
 
 #bestScores{
