@@ -18,10 +18,18 @@ function formatDate(date) {
 function formatDateTime(datetime) {
   const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-  const [datePart, timePart] = datetime.split(" ")
-  const [year, month, day] = datePart.split("-");
+  const utcDate = new Date(datetime + 'Z')
 
-  return `${parseInt(day)} ${monthNames[parseInt(month) - 1]} ${year} at ${timePart}`
+  const localDate = new Date(utcDate.getTime())
+
+  const year = localDate.getFullYear();
+  const month = monthNames[localDate.getMonth()];
+  const day = localDate.getDate();
+  const hours = localDate.getHours().toString().padStart(2, '0');
+  const minutes = localDate.getMinutes().toString().padStart(2, '0');
+  const seconds = localDate.getSeconds().toString().padStart(2, '0');
+
+  return `${day} ${month} ${year} at ${hours}:${minutes}:${seconds}`
 }
 
 function updateBestScoreUI(data, time) {
