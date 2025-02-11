@@ -90,15 +90,15 @@ def register_user(user: RegisterUserSchema, response: Response):
       user_id = cursor.fetchone()[0]
       connection.commit()
 
-      token = security.create_access_token(uid=str(user_id), expires_delta=timedelta(minutes=30))
+      token = security.create_access_token(uid=str(user_id), expires_delta=timedelta(minutes=120))
       response.set_cookie(
         config.JWT_ACCESS_COOKIE_NAME,
         token,
         httponly=True,
         samesite="none",
         secure=True,
-        max_age=1800,
-        expires=1800,
+        max_age=7200,
+        expires=7200,
       )
       return {"message": "User successfully registered", "username": user.username}
   except Exception as e:
@@ -121,15 +121,15 @@ def login_user(user: LoginUserSchema, response: Response):
       if not verify_password(user.password, db_user_password):
         raise HTTPException(status_code=401, detail="Incorrect email or password")
 
-      token = security.create_access_token(uid=str(db_user[0]), expires_delta=timedelta(minutes=30))
+      token = security.create_access_token(uid=str(db_user[0]), expires_delta=timedelta(minutes=120))
       response.set_cookie(
         config.JWT_ACCESS_COOKIE_NAME,
         token,
         httponly=True,
         samesite="none",
         secure=True,
-        max_age=1800,
-        expires=1800,
+        max_age=7200,
+        expires=7200,
       )
 
       username = db_user[1]

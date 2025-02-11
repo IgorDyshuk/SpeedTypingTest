@@ -1,4 +1,4 @@
-import { showNotification } from "./notifications.js";
+import {showNotification} from "./notifications.js";
 
 
 document.querySelectorAll(".input-container .toggle-password").forEach(toggle => {
@@ -114,19 +114,16 @@ document.getElementById("sign-up-form").addEventListener("submit", async functio
 
 
 window.addEventListener("DOMContentLoaded", async () => {
+  const transition = document.getElementById("page-transition");
   try {
     const response = await fetch("http://127.0.0.1:8000/profile", {
       method: "GET",
       credentials: "include",
     });
 
+    transition.classList.add("active");
+
     if (response.status === 204) {
-      // const container = document.querySelector(".login-container");
-      // const registerBtn = document.querySelector(".profile");
-      //
-      // registerBtn.addEventListener("click", () => {
-      //   container.classList.add("open");
-      // })
       document.querySelector(".nav-bar .profile .profile-actions").classList.remove("active")
     } else if (response.ok) {
       const data = await response.json();
@@ -185,6 +182,15 @@ document.querySelectorAll(".toggle-panel .fa-times").forEach(toggle => {
 })
 
 document.getElementById("statistic").addEventListener("click", () => {
+  const transition = document.getElementById("page-transition");
+  const content = document.querySelector("body");
+
+  if (!transition) return window.location.href = href;
+
+  content.classList.remove("hidden-content");
+
+  transition.classList.remove("active");
+
   window.location.href = "statistics.html"
 })
 

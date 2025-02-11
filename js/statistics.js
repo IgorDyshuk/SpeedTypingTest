@@ -104,7 +104,7 @@ async function fetchAndUpdate() {
   }
 }
 
-window.addEventListener("DOMContentLoaded", fetchAndUpdate)
+// window.addEventListener("DOMContentLoaded", fetchAndUpdate)
 
 document.querySelectorAll("input[name='language']").forEach(lang => {
   lang.addEventListener("change", () => {
@@ -121,4 +121,39 @@ document.querySelectorAll("input[name='language']").forEach(lang => {
     }, 250);
   });
 });
+
+document.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", function (event) {
+    const href = this.getAttribute("href");
+
+    if (!href.startsWith("#") && href !== "") {
+      event.preventDefault();
+
+      const transition = document.getElementById("page-transition");
+      const content = document.querySelector("body");
+
+      if (!transition) return window.location.href = href;
+
+      content.classList.remove("hidden-content");
+
+      transition.classList.remove("active");
+
+      window.location.href = href;
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const transition = document.getElementById("page-transition");
+
+  try {
+    await fetchAndUpdate();
+
+    transition.classList.add("active");
+  } catch (error) {
+    console.log("Error loading page:", error);
+    transition.classList.remove("active");
+  }
+});
+
 
