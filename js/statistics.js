@@ -1,3 +1,6 @@
+import {origin} from "./origin.js"
+
+
 function formatSeondsToHMS(seconds) {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
@@ -76,7 +79,7 @@ function updateBestScores(data) {
 
 async function fetchAndUpdate() {
   try {
-    const response = await fetch("http://127.0.0.1:8000/get_profile_information", {
+    const response = await fetch(`${origin}/get_profile_information`, {
       method: "GET",
       credentials: "include",
     })

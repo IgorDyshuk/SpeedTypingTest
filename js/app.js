@@ -1,4 +1,5 @@
 import {showNotification} from "./notifications.js";
+import {origin} from "./origin.js"
 
 
 document.querySelectorAll(".input-container .toggle-password").forEach(toggle => {
@@ -25,7 +26,7 @@ document.getElementById("sign-in-form").addEventListener("submit", async functio
   const password = document.querySelector("#sign-in-form .password").value.trim();
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/login", {
+    const response = await fetch(`${origin}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +75,7 @@ document.getElementById("sign-up-form").addEventListener("submit", async functio
   const passwordInput = document.querySelector("#sign-up-form .password").value.trim();
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/register", {
+    const response = await fetch(`${origin}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -116,7 +117,7 @@ document.getElementById("sign-up-form").addEventListener("submit", async functio
 window.addEventListener("DOMContentLoaded", async () => {
   const transition = document.getElementById("page-transition");
   try {
-    const response = await fetch("http://127.0.0.1:8000/profile", {
+    const response = await fetch(`${origin}/profile`, {
       method: "GET",
       credentials: "include",
     });
@@ -147,7 +148,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 document.getElementById("logout").addEventListener("click", async () => {
   try {
-    const response = await fetch("http://127.0.0.1:8000/logout", {
+    const response = await fetch(`${origin}/logout`, {
       method: "POST",
       credentials: "include",
     })
