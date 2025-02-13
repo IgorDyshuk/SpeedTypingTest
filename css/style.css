@@ -807,6 +807,10 @@ main {
   transition: all 0.15s ease-in-out;
 }
 
+#timer.fade-out{
+  opacity: 0;
+}
+
 #game {
   line-height: 32px;
   height: 144px;

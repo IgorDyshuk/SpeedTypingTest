@@ -81,7 +81,7 @@ document.querySelectorAll('input[name="language"]').forEach(radio => {
       wordsCount = words.length;
 
       language = e.target.value
-      console.log("Selected language:",language)
+      console.log("Selected language:", language)
 
       newGame();
 
@@ -117,7 +117,7 @@ document.querySelectorAll('input[name="time"]').forEach(radio => {
     gameTime = parseInt(e.target.value);
 
     time = gameTime / 1000
-    console.log("Selected time:",time)
+    console.log("Selected time:", time)
 
     document.getElementById("timer").innerHTML = (gameTime / 1000) + '';
     document.getElementById("custom-time").value = '';
@@ -358,10 +358,6 @@ async function restGameUI() {
 
   window.gameStart = null;
 
-  document.getElementById("game").classList.remove("over");
-
-  document.getElementById("timer").innerHTML = (gameTime / 1000).toString();
-
   const wordsContainer = document.getElementById("words");
   wordsContainer.style.marginTop = "0px";
 
@@ -387,8 +383,7 @@ async function restGameUI() {
   const gameElement = document.getElementById("game")
   gameElement.focus();
 
-  document.getElementById("timer").style.opacity = "0";
-  document.getElementById("timer").style.visibility = "hidden";
+  document.getElementById("timer").innerHTML = (gameTime / 1000).toString();
   document.querySelector(".nav-bar").style.opacity = "1";
 }
 
@@ -669,8 +664,31 @@ document.getElementById("game").addEventListener('keydown', e => {
 })
 
 document.getElementById('restart-btn').addEventListener('click', () => {
-  restGameUI()
-  newGame()
-})
+  const wordsContainer = document.getElementById("words");
+  const cursor = document.getElementById("cursor");
+
+  wordsContainer.classList.add("fade-out");
+  document.getElementById("timer").style.opacity = "0";
+  document.getElementById("timer").style.visibility = "hidden";
+  cursor.style.animation = "none";
+  cursor.style.opacity = "0";
+
+  document.getElementById("game").classList.remove("over");
+
+  wordsContainer.addEventListener("transitionend", async function handleTransition() {
+    wordsContainer.removeEventListener("transitionend", handleTransition);
+
+    restGameUI().catch(error => {
+      console.log(error)});
+    newGame();
+
+    // Маленькая задержка, чтобы убрать класс fade-out (и вернуть анимацию обратно)
+    setTimeout(() => {
+      wordsContainer.classList.remove("fade-out");
+      cursor.style.opacity = "1";
+      cursor.style.animation = "blink 1s infinite";
+    }, 10);
+  });
+});
 
 newGame();

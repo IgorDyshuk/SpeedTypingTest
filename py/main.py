@@ -13,7 +13,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 config = AuthXConfig(
   JWT_SECRET_KEY="SECRET_KEY",
-  JWT_ACCESS_TOKEN_EXPIRES=timedelta(minutes=30),
+  JWT_ACCESS_TOKEN_EXPIRES=timedelta(minutes=120),
   # JWT_REFRESH_TOKEN_EXPIRES=timedelta(days=7),
   JWT_TOKEN_LOCATION=["cookies"],
   JWT_ACCESS_COOKIE_NAME="my_access_token"
@@ -156,6 +156,7 @@ def protected(request: Request):
   if not token:
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
+  connection = None
   try:
     decoded_token = security._decode_token(token)
     user_id = decoded_token.sub
@@ -173,7 +174,8 @@ def protected(request: Request):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
   finally:
-    connection.close()
+    if connection:
+      connection.close()
 
 
 @app.post("/logout")
