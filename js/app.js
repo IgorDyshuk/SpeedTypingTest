@@ -1,6 +1,17 @@
 import {showNotification} from "./notifications.js";
 import {origin} from "./origin.js"
 
+const container = document.getElementById("container");
+const registerBtn = document.getElementById("register");
+const loginBtn = document.getElementById("login");
+
+registerBtn.addEventListener("click", () => {
+  container.classList.add("active");
+})
+
+loginBtn.addEventListener("click", () => {
+  container.classList.remove("active");
+})
 
 document.querySelectorAll(".input-container .toggle-password").forEach(toggle => {
   toggle.addEventListener("click", function () {
@@ -17,6 +28,13 @@ document.querySelectorAll(".input-container .toggle-password").forEach(toggle =>
 document.getElementById("login-form").addEventListener("click", () => {
   const container = document.querySelector(".login-container");
   container.classList.add("open");
+});
+
+document.querySelector(".login-container").addEventListener("click", (e) => {
+  if (e.target === e.currentTarget) {
+    const container = document.querySelector(".login-container");
+    container.classList.remove("open");
+  }
 });
 
 document.getElementById("sign-in-form").addEventListener("submit", async function (e) {
