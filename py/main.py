@@ -24,7 +24,8 @@ security = AuthX(config=config)
 origins = [
   "http://127.0.0.1:5501",
   "http://localhost:5501",
-  "http://172.20.10.3:5501"
+  "http://172.20.10.3:5501",
+  "https://igordyshuk.github.io/SpeedTypingTest/"
 ]
 
 app.add_middleware(
