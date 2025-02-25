@@ -135,7 +135,7 @@ document.getElementById("sign-up-form").addEventListener("submit", async functio
 window.addEventListener("DOMContentLoaded", async () => {
   const transition = document.getElementById("page-transition");
   try {
-    const response = await fetch(`${origin}/profile`, {
+    const response = await fetch("https://crappie-warm-squirrel.ngrok-free.app/profile", {
       method: "GET",
       credentials: "include",
     });
@@ -157,7 +157,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       document.querySelector(".nav-bar .profile .profile-actions").classList.add("active")
 
     } else {
-      throw new Error(response.statusText);
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
   } catch (error) {
     console.log(error.message, "error");
