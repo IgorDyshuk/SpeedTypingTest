@@ -44,7 +44,7 @@ document.getElementById("sign-in-form").addEventListener("submit", async functio
   const password = document.querySelector("#sign-in-form .password").value.trim();
 
   try {
-    const response = await fetch(`${origin}/login`, {
+    const response = await fetch(`https://crappie-warm-squirrel.ngrok-free.app/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -93,7 +93,7 @@ document.getElementById("sign-up-form").addEventListener("submit", async functio
   const passwordInput = document.querySelector("#sign-up-form .password").value.trim();
 
   try {
-    const response = await fetch(`${origin}/register`, {
+    const response = await fetch(`https://crappie-warm-squirrel.ngrok-free.app/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -134,28 +134,28 @@ document.getElementById("sign-up-form").addEventListener("submit", async functio
 
 window.addEventListener("DOMContentLoaded", async () => {
   const transition = document.getElementById("page-transition");
+
   try {
     const response = await fetch("https://crappie-warm-squirrel.ngrok-free.app/profile", {
       method: "GET",
-      // credentials: "include",
+      credentials: "include", // ОБЯЗАТЕЛЬНО, чтобы куки отправлялись
     });
 
     transition.classList.add("active");
 
     if (response.status === 204) {
-      document.querySelector(".nav-bar .profile .profile-actions").classList.remove("active")
+      document.querySelector(".nav-bar .profile .profile-actions").classList.remove("active");
     } else if (response.ok) {
       const data = await response.json();
 
-      const loginIcon = document.getElementById("login-icon")
-      loginIcon.classList.remove("far")
-      loginIcon.classList.add("fas")
+      const loginIcon = document.getElementById("login-icon");
+      loginIcon.classList.remove("far");
+      loginIcon.classList.add("fas");
 
-      const username = document.querySelector(".profile .username")
+      const username = document.querySelector(".profile .username");
       username.textContent = data.username;
 
-      document.querySelector(".nav-bar .profile .profile-actions").classList.add("active")
-
+      document.querySelector(".nav-bar .profile .profile-actions").classList.add("active");
     } else {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
@@ -164,9 +164,10 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+
 document.getElementById("logout").addEventListener("click", async () => {
   try {
-    const response = await fetch(`${origin}/logout`, {
+    const response = await fetch(`https://crappie-warm-squirrel.ngrok-free.app/logout`, {
       method: "POST",
       credentials: "include",
     })
