@@ -137,7 +137,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   try {
     const response = await fetch("https://crappie-warm-squirrel.ngrok-free.app/profile", {
       method: "GET",
-      credentials: "include",
+      // credentials: "include",
     });
 
     transition.classList.add("active");
